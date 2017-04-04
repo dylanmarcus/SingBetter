@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         pitchInHz = 0;
         freqText = (TextView) findViewById(R.id.freq_text);
-        AudioDispatcher dispatcher = AudioDispatcherFactory.fromDefaultMicrophone(22050,1024,0);
+        /*AudioDispatcher dispatcher = AudioDispatcherFactory.fromDefaultMicrophone(22050,1024,0);
 
         PitchDetectionHandler pdh = new PitchDetectionHandler() {
             @Override
@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
         AudioProcessor p = new PitchProcessor(PitchEstimationAlgorithm.FFT_YIN, 22050, 1024, pdh);
         dispatcher.addAudioProcessor(p);
         Thread t = new Thread(dispatcher,"Audio Dispatcher");
-        t.start();
+        t.start();*/
         freqText.setText("" + pitchInHz + " Hz");
     }
 }
