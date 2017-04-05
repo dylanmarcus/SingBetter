@@ -18,12 +18,17 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView freqText;
     private Button freqButton;
+    private Button historyViewButton;
+    private Button noteSelectViewButton;
     float pitchInHz;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        // Buttons
+        historyViewButton = (Button) findViewById(R.id.history_view_button);
+        noteSelectViewButton = (Button) findViewById(R.id.note_select_view_button);
         pitchInHz = 0;
         freqText = (TextView) findViewById(R.id.freq_text);
         /*AudioDispatcher dispatcher = AudioDispatcherFactory.fromDefaultMicrophone(22050,1024,0);
