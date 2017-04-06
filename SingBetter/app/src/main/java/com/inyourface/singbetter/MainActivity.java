@@ -1,7 +1,9 @@
 package com.inyourface.singbetter;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -29,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
         // Buttons
         historyViewButton = (Button) findViewById(R.id.history_view_button);
         noteSelectViewButton = (Button) findViewById(R.id.note_select_view_button);
+
         pitchInHz = 0;
         freqText = (TextView) findViewById(R.id.freq_text);
         /*AudioDispatcher dispatcher = AudioDispatcherFactory.fromDefaultMicrophone(22050,1024,0);

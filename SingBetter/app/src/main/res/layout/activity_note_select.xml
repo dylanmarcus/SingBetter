@@ -6,10 +6,15 @@
     android:layout_height="match_parent"
     tools:context="com.inyourface.singbetter.NoteSelectActivity">
 
-    <TextView
+    <!--<TextView
         android:id="@+id/note_select_title_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Note Select View" />
+        android:text="Note Select View" />-->
+
+    <ListView
+        android:id="@+id/notes_list"
+        android:layout_width="368dp"
+        android:layout_height="wrap_content" ></ListView>
 
 </android.support.constraint.ConstraintLayout>
