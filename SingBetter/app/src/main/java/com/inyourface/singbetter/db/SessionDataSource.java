@@ -5,6 +5,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.inyourface.singbetter.Session;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +22,7 @@ public class SessionDataSource
 {
 	private SQLiteDatabase db;
 	private SessionOpenHelper dbHelper;
-	private String[] allColumns =
+	private String[] sessionColumns =
 			{
 					SessionOpenHelper.COLUMN_ID,
 					SessionOpenHelper.COLUMN_NOTE,
@@ -52,7 +54,7 @@ public class SessionDataSource
 		dbHelper.close();
 	}
 
-	public Session createSession(String note, int interval, String customName, String dateCreated, String associatedMP3)
+	public Session insertSession(String note, int interval, String customName, String dateCreated, String associatedMP3)
 	{
 		ContentValues values = new ContentValues();
 		values.put(SessionOpenHelper.COLUMN_NOTE, note);
@@ -63,7 +65,31 @@ public class SessionDataSource
 
 		long insertID = db.insert(SessionOpenHelper.TABLE_SESSIONS, null, values);
 
-		Cursor cursor = db.query(SessionOpenHelper.TABLE_SESSIONS, allColumns, SessionOpenHelper.COLUMN_ID + " = " + insertID, null, null, null, null);
+		Cursor cursor = db.query(SessionOpenHelper.TABLE_SESSIONS, sessionColumns, SessionOpenHelper.COLUMN_ID + " = " + insertID, null, null, null, null);
+		cursor.moveToFirst();
+		Session newSession = cursorToSession(cursor);
+		cursor.close();
+		return newSession;
+	}
+
+	public Session updateSession(Session session)
+	{
+		ContentValues values = new ContentValues();
+		values.put(SessionOpenHelper.COLUMN_NOTE, session.getNote());
+		values.put(SessionOpenHelper.COLUMN_INTERVAL, session.getInterval());
+		values.put(SessionOpenHelper.COLUMN_CUSTOMNAME, session.getCustomName());
+		values.put(SessionOpenHelper.COLUMN_DATECREATED, session.getDateCreated());
+		values.put(SessionOpenHelper.COLUMN_ASSOCIATEDMP3, session.getAssociatedMP3());
+
+		String where = SessionOpenHelper.COLUMN_ID + "=?";
+		String[] whereArgs = new String[]
+				{
+					Long.toString(session.getID())
+				};
+
+		long updateID = db.update(SessionOpenHelper.TABLE_SESSIONS, values, where, whereArgs);
+
+		Cursor cursor = db.query(SessionOpenHelper.TABLE_SESSIONS, sessionColumns, SessionOpenHelper.COLUMN_ID + " = " + updateID, null, null, null, null);
 		cursor.moveToFirst();
 		Session newSession = cursorToSession(cursor);
 		cursor.close();
@@ -72,15 +98,15 @@ public class SessionDataSource
 
 	public void deleteSession(Session session)
 	{
-		long id = session.getId();
+		long id = session.getID();
 		db.delete(SessionOpenHelper.TABLE_SESSIONS, SessionOpenHelper.COLUMN_ID + " = " + id, null);
 	}
 
-	public List<Session> getAllSessions()
+	public ArrayList<Session> getAllSessions()
 	{
-		List<Session> sessions = new ArrayList<Session>();
+		ArrayList<Session> sessions = new ArrayList<Session>();
 
-		Cursor cursor = db.query(SessionOpenHelper.TABLE_SESSIONS, allColumns, null, null, null, null, null);
+		Cursor cursor = db.query(SessionOpenHelper.TABLE_SESSIONS, sessionColumns, null, null, null, null, null);
 		cursor.moveToFirst();
 
 		while(!cursor.isAfterLast())
@@ -97,7 +123,7 @@ public class SessionDataSource
 	private Session cursorToSession(Cursor cursor)
 	{
 		Session session = new Session();
-		session.setId(cursor.getLong(0));
+		session.setID(cursor.getLong(0));
 		session.setNote(cursor.getString(1));
 		session.setInterval(cursor.getInt(2));
 		session.setCustomName(cursor.getString(3));

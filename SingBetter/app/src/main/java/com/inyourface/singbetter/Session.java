@@ -1,4 +1,4 @@
-package com.inyourface.singbetter.db;
+package com.inyourface.singbetter;
 
 /**
  * Created by Justin on 4/4/2017.
@@ -14,12 +14,12 @@ public class Session
 	private String dateCreated;
 	private String associatedMP3;
 
-	public long getId()
+	public long getID()
 	{
 		return id;
 	}
 
-	public void setId(long id)
+	public void setID(long id)
 	{
 		this.id = id;
 	}

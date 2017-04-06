@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">SingBetter</string>
+    <string name="button_text">Go To Saved Sessions</string>
 </resources>
