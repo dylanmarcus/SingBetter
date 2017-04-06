@@ -15,20 +15,22 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true" >
 
-    <Button
-        android:id="@+id/history_view_button"
-        android:text="History"
-        android:layout_alignParentRight="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        <Button
+            android:id="@+id/history_view_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:onClick="goToHistoryView"
+            android:text="History" />
 
 
-    <Button
-        android:id="@+id/note_select_view_button"
-        android:text="Select note"
-        android:layout_alignParentLeft="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        <Button
+            android:id="@+id/note_select_view_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:onClick="goToNoteSelectActivity"
+            android:text="Select note" />
 
     </RelativeLayout>
 

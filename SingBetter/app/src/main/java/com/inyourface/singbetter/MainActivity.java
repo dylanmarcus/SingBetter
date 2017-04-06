@@ -54,4 +54,16 @@ public class MainActivity extends AppCompatActivity {
         t.start();*/
         freqText.setText("" + pitchInHz + " Hz");
     }
+
+    /** Called when the user taps the History button */
+    public void goToHistoryView(View view) {
+        Intent intent = new Intent(this, HistoryView.class);
+        startActivity(intent);
+    }
+
+    /** Called when the user taps the Note Select button */
+    public void goToNoteSelectActivity(View view) {
+        Intent intent = new Intent(this, NoteSelectActivity.class);
+        startActivity(intent);
+    }
 }
