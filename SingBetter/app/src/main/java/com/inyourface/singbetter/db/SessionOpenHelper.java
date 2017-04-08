@@ -11,11 +11,13 @@ import android.database.sqlite.SQLiteOpenHelper;
  * to a newer version.
  * Methods in this class should not be used outside of the helpers files that serve as the
  * Data Access Layer.
+ *
+ * TODO: Clean up this file
  */
 
 public class SessionOpenHelper extends SQLiteOpenHelper
 {
-	private static final int DATABASE_VERSION = 2;
+	private static final int DATABASE_VERSION = 6;
 	private static final String DATABASE_NAME = "sessions.db";
 
 	public static final String TABLE_SESSIONS = "sessions";
@@ -26,7 +28,7 @@ public class SessionOpenHelper extends SQLiteOpenHelper
 	public static final String COLUMN_CUSTOMNAME = "CustomName";
 	public static final String COLUMN_ASSOCIATEDMP3 = "AssociatedMP3";
 	private static final String SESSION_TABLE_CREATE = "CREATE TABLE " + TABLE_SESSIONS + " (" +
-			"ID INT PRIMARY KEY, " +
+			"ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
 			"Note String NOT NULL, " +
 			"Interval INT NOT NULL, " +
 			"DateCreated TEXT DEFAULT CURRENT_TIMESTAMP NOT NULL, " +
@@ -42,6 +44,7 @@ public class SessionOpenHelper extends SQLiteOpenHelper
 	@Override
 	public void onCreate(SQLiteDatabase db)
 	{
+		//db.execSQL("DROP TABLE IF EXISTS " + TABLE_SESSIONS);
 		db.execSQL(SESSION_TABLE_CREATE);
 	}
 

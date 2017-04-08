@@ -16,6 +16,8 @@ import java.util.List;
  * This class is used as the "Data Access Layer" for the Session table in the database.
  * Methods in this class are what should be used to retrieve and
  * update data in the Session table of the database.
+ *
+ * TODO: Clean up this file
  */
 
 public class SessionDataSource
@@ -39,14 +41,8 @@ public class SessionDataSource
 
 	public void open()
 	{
-		try
-		{
-			db = dbHelper.getWritableDatabase();
-		}
-		catch(Exception e)
-		{
-			String error = e.getMessage();
-		}
+
+		db = dbHelper.getWritableDatabase();
 	}
 
 	public void close()
@@ -54,18 +50,18 @@ public class SessionDataSource
 		dbHelper.close();
 	}
 
-	public Session insertSession(String note, int interval, String customName, String dateCreated, String associatedMP3)
+	public Session insertSession(Session session)
 	{
 		ContentValues values = new ContentValues();
-		values.put(SessionOpenHelper.COLUMN_NOTE, note);
-		values.put(SessionOpenHelper.COLUMN_INTERVAL, interval);
-		values.put(SessionOpenHelper.COLUMN_CUSTOMNAME, customName);
-		values.put(SessionOpenHelper.COLUMN_DATECREATED, dateCreated);
-		values.put(SessionOpenHelper.COLUMN_ASSOCIATEDMP3, associatedMP3);
+		values.put(SessionOpenHelper.COLUMN_NOTE, session.getNote());
+		values.put(SessionOpenHelper.COLUMN_INTERVAL, session.getInterval());
+		values.put(SessionOpenHelper.COLUMN_CUSTOMNAME, session.getCustomName());
+		values.put(SessionOpenHelper.COLUMN_DATECREATED, session.getDateCreated());
+		values.put(SessionOpenHelper.COLUMN_ASSOCIATEDMP3, session.getAssociatedMP3());
 
 		long insertID = db.insert(SessionOpenHelper.TABLE_SESSIONS, null, values);
 
-		Cursor cursor = db.query(SessionOpenHelper.TABLE_SESSIONS, sessionColumns, SessionOpenHelper.COLUMN_ID + " = " + insertID, null, null, null, null);
+		Cursor cursor = db.query(SessionOpenHelper.TABLE_SESSIONS, sessionColumns, SessionOpenHelper.COLUMN_ID + "=" + insertID, null, null, null, null);
 		cursor.moveToFirst();
 		Session newSession = cursorToSession(cursor);
 		cursor.close();
@@ -123,7 +119,7 @@ public class SessionDataSource
 	private Session cursorToSession(Cursor cursor)
 	{
 		Session session = new Session();
-		session.setID(cursor.getLong(0));
+		session.setID(cursor.getInt(0));
 		session.setNote(cursor.getString(1));
 		session.setInterval(cursor.getInt(2));
 		session.setCustomName(cursor.getString(3));

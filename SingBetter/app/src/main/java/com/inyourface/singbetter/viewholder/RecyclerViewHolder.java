@@ -47,7 +47,7 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder
 		// TEMPORARY ITEMS
 
 		sessionIDTextView.setText(Long.toString(session.getID()));
-		sessionIntervalTextView.setText(session.getInterval());
+		sessionIntervalTextView.setText(Integer.toString(session.getInterval()));
 		sessionAssociatedMP3TextView.setText(session.getAssociatedMP3());
 	}
 }

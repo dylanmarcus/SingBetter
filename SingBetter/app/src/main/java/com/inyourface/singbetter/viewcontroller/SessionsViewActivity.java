@@ -31,7 +31,7 @@ public class SessionsViewActivity extends AppCompatActivity
 		/**
 		 * Database interactions should be performed on a background thread, no matter
 		 * what kind of query they are.
-		 * TODO: Thead this stuff
+		 * TODO: Thread this stuff
 		 */
 		db = new SessionDataSource(this);
 		db.open();
@@ -47,7 +47,7 @@ public class SessionsViewActivity extends AppCompatActivity
 	@Override
 	protected void onDestroy()
 	{
-		db.close();
+		db.close(); // Close the database when we leave this activity.
 		super.onDestroy();
 	}
 }
