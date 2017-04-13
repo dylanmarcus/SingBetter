@@ -1,5 +1,6 @@
 package com.inyourface.singbetter.viewcontroller;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -7,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 
 import com.inyourface.singbetter.R;
 import com.inyourface.singbetter.Session;
+import com.inyourface.singbetter.Util;
 import com.inyourface.singbetter.adapter.RecyclerViewAdapter;
 import com.inyourface.singbetter.db.SessionDataSource;
 
@@ -35,6 +37,12 @@ public class SessionsViewActivity extends AppCompatActivity
 		 */
 		db = new SessionDataSource(this);
 		db.open();
+
+		for(int i = 0; i < 10; i++)
+		{
+			db.insertSession(Util.generateSession());
+		}
+
 		ArrayList<Session> sessions = db.getAllSessions();
 
 		sessionsRecycler = (RecyclerView) findViewById(R.id.sessions_recycler);

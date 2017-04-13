@@ -23,6 +23,8 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder
 	private TextView sessionIntervalTextView;
 	private TextView sessionAssociatedMP3TextView;
 
+	private TextView sessionDataTextView;
+
 	public RecyclerViewHolder(View itemView)
 	{
 		super(itemView);
@@ -36,6 +38,8 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder
 		sessionIDTextView = (TextView) itemView.findViewById(R.id.recycler_item_id);
 		sessionIntervalTextView = (TextView) itemView.findViewById(R.id.recycler_item_interval);
 		sessionAssociatedMP3TextView = (TextView) itemView.findViewById(R.id.recycler_item_associated_mp3);
+
+		sessionDataTextView = (TextView) itemView.findViewById(R.id.recycler_item_data);
 	}
 
 	public void bindView(Session session)
@@ -49,5 +53,7 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder
 		sessionIDTextView.setText(Long.toString(session.getID()));
 		sessionIntervalTextView.setText(Integer.toString(session.getInterval()));
 		sessionAssociatedMP3TextView.setText(session.getAssociatedMP3());
+
+		sessionDataTextView.setText(session.getData());
 	}
 }

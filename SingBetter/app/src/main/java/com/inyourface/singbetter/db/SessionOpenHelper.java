@@ -17,23 +17,25 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class SessionOpenHelper extends SQLiteOpenHelper
 {
-	private static final int DATABASE_VERSION = 6;
-	private static final String DATABASE_NAME = "sessions.db";
+	private static final int DATABASE_VERSION = 1;
+	private static final String DATABASE_NAME = "SingBetter.db";
 
-	public static final String TABLE_SESSIONS = "sessions";
+	public static final String TABLE_SESSIONS = "Recorded_Sessions";
 	public static final String COLUMN_ID = "ID";
 	public static final String COLUMN_NOTE = "Note";
 	public static final String COLUMN_INTERVAL = "Interval";
-	public static final String COLUMN_DATECREATED = "DateCreated";
-	public static final String COLUMN_CUSTOMNAME = "CustomName";
-	public static final String COLUMN_ASSOCIATEDMP3 = "AssociatedMP3";
+	public static final String COLUMN_DATECREATED = "Date_Created";
+	public static final String COLUMN_CUSTOMNAME = "Custom_Name";
+	public static final String COLUMN_ASSOCIATEDMP3 = "Associated_MP3";
+	public static final String COLUMN_DATA = "Data";
 	private static final String SESSION_TABLE_CREATE = "CREATE TABLE " + TABLE_SESSIONS + " (" +
-			"ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
-			"Note String NOT NULL, " +
-			"Interval INT NOT NULL, " +
-			"DateCreated TEXT DEFAULT CURRENT_TIMESTAMP NOT NULL, " +
-			"CustomName String, " +
-			"AssociatedMP3 String" +
+			COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+			COLUMN_NOTE + " TEXT NOT NULL, " +
+			COLUMN_INTERVAL + " INTEGER NOT NULL, " +
+			COLUMN_DATECREATED + " TEXT DEFAULT CURRENT_TIMESTAMP NOT NULL, " +
+			COLUMN_CUSTOMNAME + " TEXT NOT NULL, " +
+			COLUMN_ASSOCIATEDMP3 + " TEXT, " +
+			COLUMN_DATA + " TEXT NOT NULL" +
 			");";
 
 	public SessionOpenHelper(Context context)
@@ -44,7 +46,6 @@ public class SessionOpenHelper extends SQLiteOpenHelper
 	@Override
 	public void onCreate(SQLiteDatabase db)
 	{
-		//db.execSQL("DROP TABLE IF EXISTS " + TABLE_SESSIONS);
 		db.execSQL(SESSION_TABLE_CREATE);
 	}
 

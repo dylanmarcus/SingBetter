@@ -31,7 +31,8 @@ public class SessionDataSource
 					SessionOpenHelper.COLUMN_INTERVAL,
 					SessionOpenHelper.COLUMN_CUSTOMNAME,
 					SessionOpenHelper.COLUMN_DATECREATED,
-					SessionOpenHelper.COLUMN_ASSOCIATEDMP3
+					SessionOpenHelper.COLUMN_ASSOCIATEDMP3,
+					SessionOpenHelper.COLUMN_DATA
 			};
 
 	public SessionDataSource(Context context)
@@ -41,7 +42,6 @@ public class SessionDataSource
 
 	public void open()
 	{
-
 		db = dbHelper.getWritableDatabase();
 	}
 
@@ -58,6 +58,7 @@ public class SessionDataSource
 		values.put(SessionOpenHelper.COLUMN_CUSTOMNAME, session.getCustomName());
 		values.put(SessionOpenHelper.COLUMN_DATECREATED, session.getDateCreated());
 		values.put(SessionOpenHelper.COLUMN_ASSOCIATEDMP3, session.getAssociatedMP3());
+		values.put(SessionOpenHelper.COLUMN_DATA, session.getData());
 
 		long insertID = db.insert(SessionOpenHelper.TABLE_SESSIONS, null, values);
 
@@ -76,6 +77,7 @@ public class SessionDataSource
 		values.put(SessionOpenHelper.COLUMN_CUSTOMNAME, session.getCustomName());
 		values.put(SessionOpenHelper.COLUMN_DATECREATED, session.getDateCreated());
 		values.put(SessionOpenHelper.COLUMN_ASSOCIATEDMP3, session.getAssociatedMP3());
+		values.put(SessionOpenHelper.COLUMN_DATA, session.getData());
 
 		String where = SessionOpenHelper.COLUMN_ID + "=?";
 		String[] whereArgs = new String[]
@@ -125,6 +127,7 @@ public class SessionDataSource
 		session.setCustomName(cursor.getString(3));
 		session.setDateCreated(cursor.getString(4));
 		session.setAssociatedMP3(cursor.getString(5));
+		session.setData(cursor.getString(6));
 		return session;
 	}
 }

@@ -1,11 +1,14 @@
 package com.inyourface.singbetter;
 
+import java.io.Serializable;
+
 /**
  * Created by Justin on 4/4/2017.
  *
  */
 
-public class Session
+@SuppressWarnings("serial")
+public class Session implements Serializable
 {
 	private long id;
 	private String note;
@@ -13,6 +16,18 @@ public class Session
 	private String customName;
 	private String dateCreated;
 	private String associatedMP3;
+	private String data;
+
+
+	public String getData()
+	{
+		return data;
+	}
+
+	public void setData(String data)
+	{
+		this.data = data;
+	}
 
 	public long getID()
 	{
