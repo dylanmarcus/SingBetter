@@ -23,11 +23,20 @@ public class MainActivity extends AppCompatActivity {
     private Button historyViewButton;
     private Button noteSelectViewButton;
     float pitchInHz;
+    String passedNote = null;
+    private TextView desiredNoteText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        desiredNoteText = (TextView) findViewById(R.id.desired_note_text);
+        // Get Selected Note
+        passedNote=getIntent().getStringExtra(NoteSelectActivity.SELECTED);
+        // Set desired Note Text
+        desiredNoteText.setText(passedNote);
+
         // Buttons
         historyViewButton = (Button) findViewById(R.id.history_view_button);
         noteSelectViewButton = (Button) findViewById(R.id.note_select_view_button);

@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.inyourface.singbetter.NoteSelectActivity">
+    tools:context="com.inyourface.singbetter.NoteSelectActivity"
+    style="@style/GradientBackground">
 
     <!--<TextView
         android:id="@+id/note_select_title_text"
@@ -15,6 +16,6 @@
     <ListView
         android:id="@+id/notes_list"
         android:layout_width="368dp"
-        android:layout_height="wrap_content" ></ListView>
+        android:layout_height="wrap_content"></ListView>
 
 </android.support.constraint.ConstraintLayout>
