@@ -1,4 +1,4 @@
-package com.inyourface.singbetter.adapter;
+package com.inyourface.singbetter.RecordedSessions.RecyclerView;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 
 import com.inyourface.singbetter.R;
 import com.inyourface.singbetter.Session;
-import com.inyourface.singbetter.viewholder.RecyclerViewHolder;
 
 import java.util.ArrayList;
 
@@ -17,7 +16,7 @@ import java.util.ArrayList;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder>
 {
-	private ArrayList<Session> bindableCollection;
+	public static ArrayList<Session> bindableCollection;
 
 	public RecyclerViewAdapter(ArrayList<Session> collection)
 	{
@@ -43,5 +42,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder
 	public int getItemCount()
 	{
 		return this.bindableCollection.size();
+	}
+
+	public static Session getSession(int pos)
+	{
+		return bindableCollection.get(pos);
 	}
 }

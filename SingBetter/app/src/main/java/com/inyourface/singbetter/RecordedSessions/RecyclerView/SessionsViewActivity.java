@@ -1,6 +1,5 @@
-package com.inyourface.singbetter.viewcontroller;
+package com.inyourface.singbetter.RecordedSessions.RecyclerView;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,7 +8,6 @@ import android.support.v7.widget.RecyclerView;
 import com.inyourface.singbetter.R;
 import com.inyourface.singbetter.Session;
 import com.inyourface.singbetter.Util;
-import com.inyourface.singbetter.adapter.RecyclerViewAdapter;
 import com.inyourface.singbetter.db.SessionDataSource;
 
 import java.util.ArrayList;
@@ -23,12 +21,15 @@ public class SessionsViewActivity extends AppCompatActivity
 	private RecyclerView sessionsRecycler;
 	private LinearLayoutManager sessionsLayoutManager;
 	private SessionDataSource db;
+	public static SessionsViewActivity act;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_sessions_view);
+
+		act = this;
 
 		/**
 		 * Database interactions should be performed on a background thread, no matter
@@ -40,7 +41,7 @@ public class SessionsViewActivity extends AppCompatActivity
 
 		for(int i = 0; i < 10; i++)
 		{
-			db.insertSession(Util.generateSession());
+			//db.insertSession(Util.generateSession());
 		}
 
 		ArrayList<Session> sessions = db.getAllSessions();
@@ -55,7 +56,7 @@ public class SessionsViewActivity extends AppCompatActivity
 	@Override
 	protected void onDestroy()
 	{
-		db.close(); // Close the database when we leave this activity.
 		super.onDestroy();
+		db.close(); // Close the database when we leave this activity.
 	}
 }

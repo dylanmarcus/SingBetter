@@ -19,23 +19,4 @@
         android:id="@+id/recycler_item_date_created"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
-
-    <TextView
-        android:id="@+id/recycler_item_id"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
-    <TextView
-        android:id="@+id/recycler_item_interval"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
-    <TextView
-        android:id="@+id/recycler_item_associated_mp3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-    <TextView
-        android:id="@+id/recycler_item_data"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
 </LinearLayout>
