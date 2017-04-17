@@ -1,4 +1,4 @@
-package com.inyourface.singbetter;
+package com.inyourface.singbetter.Objects;
 
 import java.io.Serializable;
 

@@ -5,10 +5,9 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.inyourface.singbetter.Session;
+import com.inyourface.singbetter.Objects.Session;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Justin on 4/4/2017.
@@ -87,7 +86,7 @@ public class SessionDataSource
 
 		long updateID = db.update(SessionOpenHelper.TABLE_SESSIONS, values, where, whereArgs);
 
-		Cursor cursor = db.query(SessionOpenHelper.TABLE_SESSIONS, sessionColumns, SessionOpenHelper.COLUMN_ID + " = " + updateID, null, null, null, null);
+		Cursor cursor = db.query(SessionOpenHelper.TABLE_SESSIONS, sessionColumns, SessionOpenHelper.COLUMN_ID + "=" + updateID, null, null, null, null);
 		cursor.moveToFirst();
 		Session newSession = cursorToSession(cursor);
 		cursor.close();
@@ -97,7 +96,26 @@ public class SessionDataSource
 	public void deleteSession(Session session)
 	{
 		long id = session.getID();
-		db.delete(SessionOpenHelper.TABLE_SESSIONS, SessionOpenHelper.COLUMN_ID + " = " + id, null);
+		db.delete(SessionOpenHelper.TABLE_SESSIONS, SessionOpenHelper.COLUMN_ID + "=" + id, null);
+	}
+
+	public ArrayList<Session> getSessionsWithNote(String note)
+	{
+		ArrayList<Session> sessions = new ArrayList<Session>();
+
+		Cursor cursor = db.query(SessionOpenHelper.TABLE_SESSIONS, sessionColumns, SessionOpenHelper.COLUMN_NOTE + "=\"" + note + "\"", null, null, null, null);
+		cursor.moveToFirst();
+
+		while(!cursor.isAfterLast())
+		{
+			Session session = cursorToSession(cursor);
+			sessions.add(session);
+			cursor.moveToNext();
+		}
+
+		cursor.close();
+
+		return sessions;
 	}
 
 	public ArrayList<Session> getAllSessions()

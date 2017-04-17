@@ -19,7 +19,7 @@
         <activity android:name=".RecordedSessions.RecyclerView.SessionsViewActivity">
 
         </activity>
-        <activity android:name=".RecordedSessions.newview.ItemActivity">
+        <activity android:name=".RecordedSessions.ItemView.ItemActivity">
 
         </activity>
     </application>

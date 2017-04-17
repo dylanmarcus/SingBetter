@@ -1,5 +1,7 @@
 package com.inyourface.singbetter;
 
+import com.inyourface.singbetter.Objects.Session;
+
 import java.util.Random;
 
 /**
@@ -22,6 +24,10 @@ public class Util
 			};
 	private static String[] notes =
 			{
+					"A",
+					"A#",
+					"B",
+					"B#",
 					"C",
 					"C#",
 					"D",

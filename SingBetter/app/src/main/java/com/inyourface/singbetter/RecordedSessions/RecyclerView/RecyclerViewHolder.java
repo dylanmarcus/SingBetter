@@ -6,8 +6,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.inyourface.singbetter.R;
-import com.inyourface.singbetter.RecordedSessions.newview.ItemActivity;
-import com.inyourface.singbetter.Session;
+import com.inyourface.singbetter.RecordedSessions.ItemView.ItemActivity;
+import com.inyourface.singbetter.Objects.Session;
 
 /**
  * Created by Justin on 4/6/2017.

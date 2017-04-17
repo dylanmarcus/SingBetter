@@ -6,7 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.inyourface.singbetter.R;
-import com.inyourface.singbetter.Session;
+import com.inyourface.singbetter.Objects.Session;
 
 import java.util.ArrayList;
 
