@@ -34,7 +34,7 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder implements View.
 	{
 		sessionCustomNameTextView.setText(session.getCustomName());
 		sessionNoteTextView.setText(session.getNote());
-		sessionDateCreatedTextView.setText(session.getDateCreated()); // TODO: This could use some formatting to look nicer.
+		sessionDateCreatedTextView.setText(Long.toString(session.getDateCreated())); // TODO: This could use some formatting to look nicer.
 	}
 
 	@Override

@@ -12,9 +12,8 @@ public class Session implements Serializable
 {
 	private long id;
 	private String note;
-	private int interval;
 	private String customName;
-	private String dateCreated;
+	private long dateCreated;
 	private String associatedMP3;
 	private String data;
 
@@ -49,16 +48,6 @@ public class Session implements Serializable
 		this.note = note;
 	}
 
-	public int getInterval()
-	{
-		return interval;
-	}
-
-	public void setInterval(int interval)
-	{
-		this.interval = interval;
-	}
-
 	public String getCustomName()
 	{
 		return customName;
@@ -69,12 +58,12 @@ public class Session implements Serializable
 		this.customName = customName;
 	}
 
-	public String getDateCreated()
+	public long getDateCreated()
 	{
 		return dateCreated;
 	}
 
-	public void setDateCreated(String dateCreated)
+	public void setDateCreated(long dateCreated)
 	{
 		this.dateCreated = dateCreated;
 	}

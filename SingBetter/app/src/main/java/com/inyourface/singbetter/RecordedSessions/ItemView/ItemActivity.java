@@ -40,7 +40,7 @@ public class ItemActivity extends AppCompatActivity
 
 		customNameTextView.setText(session.getCustomName());
 		noteTextView.setText(session.getNote());
-		dateCreatedTextView.setText(session.getDateCreated());
+		dateCreatedTextView.setText(Long.toString(session.getDateCreated()));
 		associatedMP3TextView.setText(session.getAssociatedMP3());
 		dataTextView.setText(session.getData());
 	}

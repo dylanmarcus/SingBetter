@@ -2,6 +2,7 @@ package com.inyourface.singbetter;
 
 import com.inyourface.singbetter.Objects.Session;
 
+import java.util.Calendar;
 import java.util.Random;
 
 /**
@@ -54,8 +55,7 @@ public class Util
 	{
 		Session newSession = new Session();
 
-		newSession.setDateCreated("now");
-		newSession.setInterval(generateInterval());
+		newSession.setDateCreated(getCurrentTimeInMilliseconds());
 		newSession.setNote(generateNote());
 		String songName = generateSongName();
 		newSession.setAssociatedMP3("/bin/" + songName + ".mp3");
@@ -89,9 +89,9 @@ public class Util
 		return customNames[x];
 	}
 
-	public static int generateInterval()
+	public static long getCurrentTimeInMilliseconds()
 	{
-		Random ran = new Random();
-		return ran.nextInt(200) + 1;
+		Calendar c = Calendar.getInstance();
+		return c.getTimeInMillis();
 	}
 }

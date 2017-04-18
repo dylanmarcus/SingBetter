@@ -23,7 +23,6 @@ public class SessionOpenHelper extends SQLiteOpenHelper
 	public static final String TABLE_SESSIONS = "Recorded_Sessions";
 	public static final String COLUMN_ID = "ID";
 	public static final String COLUMN_NOTE = "Note";
-	public static final String COLUMN_INTERVAL = "Interval";
 	public static final String COLUMN_DATECREATED = "Date_Created";
 	public static final String COLUMN_CUSTOMNAME = "Custom_Name";
 	public static final String COLUMN_ASSOCIATEDMP3 = "Associated_MP3";
@@ -31,8 +30,7 @@ public class SessionOpenHelper extends SQLiteOpenHelper
 	private static final String SESSION_TABLE_CREATE = "CREATE TABLE " + TABLE_SESSIONS + " (" +
 			COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
 			COLUMN_NOTE + " TEXT NOT NULL, " +
-			COLUMN_INTERVAL + " INTEGER NOT NULL, " +
-			COLUMN_DATECREATED + " TEXT DEFAULT CURRENT_TIMESTAMP NOT NULL, " +
+			COLUMN_DATECREATED + " INTEGER DEFAULT CURRENT_TIMESTAMP NOT NULL, " +
 			COLUMN_CUSTOMNAME + " TEXT NOT NULL, " +
 			COLUMN_ASSOCIATEDMP3 + " TEXT, " +
 			COLUMN_DATA + " TEXT NOT NULL" +

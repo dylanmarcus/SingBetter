@@ -27,7 +27,6 @@ public class SessionDataSource
 			{
 					SessionOpenHelper.COLUMN_ID,
 					SessionOpenHelper.COLUMN_NOTE,
-					SessionOpenHelper.COLUMN_INTERVAL,
 					SessionOpenHelper.COLUMN_CUSTOMNAME,
 					SessionOpenHelper.COLUMN_DATECREATED,
 					SessionOpenHelper.COLUMN_ASSOCIATEDMP3,
@@ -53,7 +52,6 @@ public class SessionDataSource
 	{
 		ContentValues values = new ContentValues();
 		values.put(SessionOpenHelper.COLUMN_NOTE, session.getNote());
-		values.put(SessionOpenHelper.COLUMN_INTERVAL, session.getInterval());
 		values.put(SessionOpenHelper.COLUMN_CUSTOMNAME, session.getCustomName());
 		values.put(SessionOpenHelper.COLUMN_DATECREATED, session.getDateCreated());
 		values.put(SessionOpenHelper.COLUMN_ASSOCIATEDMP3, session.getAssociatedMP3());
@@ -72,7 +70,6 @@ public class SessionDataSource
 	{
 		ContentValues values = new ContentValues();
 		values.put(SessionOpenHelper.COLUMN_NOTE, session.getNote());
-		values.put(SessionOpenHelper.COLUMN_INTERVAL, session.getInterval());
 		values.put(SessionOpenHelper.COLUMN_CUSTOMNAME, session.getCustomName());
 		values.put(SessionOpenHelper.COLUMN_DATECREATED, session.getDateCreated());
 		values.put(SessionOpenHelper.COLUMN_ASSOCIATEDMP3, session.getAssociatedMP3());
@@ -139,13 +136,12 @@ public class SessionDataSource
 	private Session cursorToSession(Cursor cursor)
 	{
 		Session session = new Session();
-		session.setID(cursor.getInt(0));
+		session.setID(cursor.getLong(0));
 		session.setNote(cursor.getString(1));
-		session.setInterval(cursor.getInt(2));
-		session.setCustomName(cursor.getString(3));
-		session.setDateCreated(cursor.getString(4));
-		session.setAssociatedMP3(cursor.getString(5));
-		session.setData(cursor.getString(6));
+		session.setCustomName(cursor.getString(2));
+		session.setDateCreated(cursor.getLong(3));
+		session.setAssociatedMP3(cursor.getString(4));
+		session.setData(cursor.getString(5));
 		return session;
 	}
 }

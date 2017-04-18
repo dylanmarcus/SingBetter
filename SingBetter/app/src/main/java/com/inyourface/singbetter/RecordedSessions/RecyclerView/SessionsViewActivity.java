@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.inyourface.singbetter.Objects.Note;
 import com.inyourface.singbetter.R;
 import com.inyourface.singbetter.Objects.Session;
+import com.inyourface.singbetter.Util;
 import com.inyourface.singbetter.db.SessionDataSource;
 
 import java.util.ArrayList;
@@ -55,7 +56,7 @@ public class SessionsViewActivity extends AppCompatActivity
 		db.open();
 
 		// The loop below just generates mostly random data.
-		//for(int i = 0; i < 10; i++)
+		//for(int i = 0; i < 100; i++)
 		//{
 		//	db.insertSession(Util.generateSession());
 		//}
