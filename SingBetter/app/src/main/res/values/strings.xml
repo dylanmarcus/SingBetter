@@ -1,7 +1,8 @@
 <resources>
     <string name="app_name">SingBetter</string>
-    <string name="freq_text">Test</string>
-    <string name="button_text">Say_Hello</string>
+    <string name="freq_text">-1 Hz</string>
+    <string name="button_text">C</string>
+    <string name="current_note_text">C</string>
     <string name="title_activity_note_select">NoteSelectActivity</string>
     <string name="large_text">
         "Material is the metaphor.\n\n"
