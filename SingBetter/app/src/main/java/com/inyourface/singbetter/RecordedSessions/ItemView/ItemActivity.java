@@ -8,6 +8,7 @@ import android.widget.TextView;
 import com.inyourface.singbetter.R;
 import com.inyourface.singbetter.RecordedSessions.RecyclerView.RecyclerViewAdapter;
 import com.inyourface.singbetter.Objects.Session;
+import com.inyourface.singbetter.Util;
 
 /**
  * Created by Justin on 4/15/2017.
@@ -39,9 +40,9 @@ public class ItemActivity extends AppCompatActivity
 		Session session = RecyclerViewAdapter.getSession(pos);
 
 		customNameTextView.setText(session.getCustomName());
-		noteTextView.setText(session.getNote());
+		noteTextView.setText(session.getNote().getNoteString());
 		dateCreatedTextView.setText(Long.toString(session.getDateCreated()));
 		associatedMP3TextView.setText(session.getAssociatedMP3());
-		dataTextView.setText(session.getData());
+		dataTextView.setText(Util.convertIntArrToString(session.getData()));
 	}
 }

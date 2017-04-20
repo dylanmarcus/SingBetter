@@ -12,7 +12,7 @@ import com.inyourface.singbetter.Objects.Note;
 import com.inyourface.singbetter.R;
 import com.inyourface.singbetter.Objects.Session;
 import com.inyourface.singbetter.Util;
-import com.inyourface.singbetter.db.SessionDataSource;
+import com.inyourface.singbetter.db.SessionDAL;
 
 import java.util.ArrayList;
 
@@ -31,7 +31,7 @@ public class SessionsViewActivity extends AppCompatActivity
 	private ArrayList<Session> displayedSessions;
 	private RecyclerViewAdapter adapter;
 	private Note currentNote;
-	private SessionDataSource db;
+	private SessionDAL db;
 	public static SessionsViewActivity act;
 
 	@Override
@@ -52,7 +52,7 @@ public class SessionsViewActivity extends AppCompatActivity
 		 * what kind of query they are.
 		 * TODO: Thread DB stuff (good practice even if not necessary?)
 		 */
-		db = new SessionDataSource(this);
+		db = new SessionDAL(this);
 		db.open();
 
 		// The loop below just generates mostly random data.
@@ -61,7 +61,7 @@ public class SessionsViewActivity extends AppCompatActivity
 		//	db.insertSession(Util.generateSession());
 		//}
 
-		displayedSessions = db.getSessionsWithNote(currentNote.getNote());
+		displayedSessions = db.getSessionsWithNote(currentNote);
 
 		sessionsRecycler = (RecyclerView) findViewById(R.id.sessions_recycler);
 		sessionsLayoutManager = new LinearLayoutManager(getBaseContext());
@@ -76,20 +76,20 @@ public class SessionsViewActivity extends AppCompatActivity
 			public void onClick(View v)
 			{
 				// Update the current note icon.
-				Note x = Note.noteToLeftOf(currentNote);
+				Note x = Util.noteToLeftOf(currentNote);
 				currentNote = x;
-				currentNoteTextView.setText(x.getNote());
+				currentNoteTextView.setText(x.getNoteString());
 
 				// We moved left, so we can move right (if, for example, we were at the very end of our Notes list)
 				rightButton.setEnabled(true);
 
 				// Update the recycler view.
 				displayedSessions.clear();
-				displayedSessions.addAll(db.getSessionsWithNote(currentNote.getNote()));
+				displayedSessions.addAll(db.getSessionsWithNote(currentNote));
 				adapter.notifyDataSetChanged();
 
 				// Check to see if there are any notes to the left. Disable the button if not.
-				if(Note.noteToLeftOf(currentNote) == null)
+				if(Util.noteToLeftOf(currentNote) == null)
 				{
 					leftButton.setEnabled(false);
 				}
@@ -102,20 +102,20 @@ public class SessionsViewActivity extends AppCompatActivity
 			public void onClick(View v)
 			{
 				// Update the current note icon.
-				Note x = Note.noteToRightOf(currentNote);
+				Note x = Util.noteToRightOf(currentNote);
 				currentNote = x;
-				currentNoteTextView.setText(x.getNote());
+				currentNoteTextView.setText(x.getNoteString());
 
 				// We moved right, so we can move left (if, for example, we were at the very beginning of our Notes list)
 				leftButton.setEnabled(true);
 
 				// Update the recycler view.
 				displayedSessions.clear();
-				displayedSessions.addAll(db.getSessionsWithNote(currentNote.getNote()));
+				displayedSessions.addAll(db.getSessionsWithNote(currentNote));
 				adapter.notifyDataSetChanged();
 
 				// Check to see if there are any notes to the right. Disable the button if not.
-				if(Note.noteToRightOf(currentNote) == null)
+				if(Util.noteToRightOf(currentNote) == null)
 				{
 					rightButton.setEnabled(false);
 				}

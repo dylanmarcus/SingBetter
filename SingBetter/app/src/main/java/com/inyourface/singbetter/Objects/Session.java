@@ -1,6 +1,7 @@
 package com.inyourface.singbetter.Objects;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 /**
  * Created by Justin on 4/4/2017.
@@ -11,19 +12,19 @@ import java.io.Serializable;
 public class Session implements Serializable
 {
 	private long id;
-	private String note;
+	private Note note;
 	private String customName;
 	private long dateCreated;
 	private String associatedMP3;
-	private String data;
+	private ArrayList<Integer> data;
 
 
-	public String getData()
+	public ArrayList<Integer> getData()
 	{
 		return data;
 	}
 
-	public void setData(String data)
+	public void setData(ArrayList<Integer> data)
 	{
 		this.data = data;
 	}
@@ -38,12 +39,12 @@ public class Session implements Serializable
 		this.id = id;
 	}
 
-	public String getNote()
+	public Note getNote()
 	{
 		return note;
 	}
 
-	public void setNote(String note)
+	public void setNote(Note note)
 	{
 		this.note = note;
 	}

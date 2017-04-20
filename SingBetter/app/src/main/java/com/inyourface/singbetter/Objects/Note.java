@@ -2,8 +2,6 @@ package com.inyourface.singbetter.Objects;
 
 /**
  * Created by Justin on 4/17/2017.
- *
- * I have no idea what the range should actually be.
  */
 
 public enum Note
@@ -25,53 +23,11 @@ public enum Note
 
 	private Note(String value)
 	{
-		note = value;
+		this.note = value;
 	}
 
-	public String getNote()
+	public String getNoteString()
 	{
-		return note;
-	}
-
-	public static Note noteToLeftOf(Note note)
-	{
-		Note[] notes = Note.values();
-		for(int i = 0; i < notes.length; i++)
-		{
-			if(notes[i] == note)
-			{
-				if(i == 0)
-				{
-					break;
-				}
-				else
-				{
-					return notes[i-1];
-				}
-			}
-		}
-
-		return null;
-	}
-
-	public static Note noteToRightOf(Note note)
-	{
-		Note[] notes = Note.values();
-		for(int i = 0; i < notes.length; i++)
-		{
-			if(notes[i] == note)
-			{
-				if(i == (notes.length - 1))
-				{
-					break;
-				}
-				else
-				{
-					return notes[i+1];
-				}
-			}
-		}
-
-		return null;
+		return this.note;
 	}
 }

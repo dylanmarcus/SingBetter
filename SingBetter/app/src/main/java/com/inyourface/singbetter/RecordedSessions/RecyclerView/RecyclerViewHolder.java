@@ -8,6 +8,7 @@ import android.widget.TextView;
 import com.inyourface.singbetter.R;
 import com.inyourface.singbetter.RecordedSessions.ItemView.ItemActivity;
 import com.inyourface.singbetter.Objects.Session;
+import com.inyourface.singbetter.Util;
 
 /**
  * Created by Justin on 4/6/2017.
@@ -16,7 +17,6 @@ import com.inyourface.singbetter.Objects.Session;
 public class RecyclerViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
 {
 	private TextView sessionCustomNameTextView;
-	private TextView sessionNoteTextView;
 	private TextView sessionDateCreatedTextView;
 
 	public RecyclerViewHolder(View itemView)
@@ -26,15 +26,13 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder implements View.
 		itemView.setOnClickListener(this);
 
 		sessionCustomNameTextView = (TextView) itemView.findViewById(R.id.recycler_item_custom_name);
-		sessionNoteTextView = (TextView) itemView.findViewById(R.id.recycler_item_note);
 		sessionDateCreatedTextView = (TextView) itemView.findViewById(R.id.recycler_item_date_created);
 	}
 
 	public void bindView(Session session)
 	{
 		sessionCustomNameTextView.setText(session.getCustomName());
-		sessionNoteTextView.setText(session.getNote());
-		sessionDateCreatedTextView.setText(Long.toString(session.getDateCreated())); // TODO: This could use some formatting to look nicer.
+		sessionDateCreatedTextView.setText(Util.convertEpochToReadable(session.getDateCreated())); // TODO: This could use some formatting to look nicer.
 	}
 
 	@Override

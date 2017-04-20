@@ -5,21 +5,20 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.inyourface.singbetter.Objects.Note;
 import com.inyourface.singbetter.Objects.Session;
+import com.inyourface.singbetter.Util;
 
 import java.util.ArrayList;
 
 /**
  * Created by Justin on 4/4/2017.
  *
- * This class is used as the "Data Access Layer" for the Session table in the database.
- * Methods in this class are what should be used to retrieve and
- * update data in the Session table of the database.
- *
- * TODO: Clean up this file
+ * This class is used as the "Data Access Layer" for the SingBetter table in the database.
+ * Methods in this class are what should be used to retrieve and update data in the database.
  */
 
-public class SessionDataSource
+public class SessionDAL
 {
 	private SQLiteDatabase db;
 	private SessionOpenHelper dbHelper;
@@ -33,7 +32,7 @@ public class SessionDataSource
 					SessionOpenHelper.COLUMN_DATA
 			};
 
-	public SessionDataSource(Context context)
+	public SessionDAL(Context context)
 	{
 		dbHelper = new SessionOpenHelper(context);
 	}
@@ -50,15 +49,17 @@ public class SessionDataSource
 
 	public Session insertSession(Session session)
 	{
+		// Insert the values into the database
 		ContentValues values = new ContentValues();
-		values.put(SessionOpenHelper.COLUMN_NOTE, session.getNote());
+		values.put(SessionOpenHelper.COLUMN_NOTE, session.getNote().getNoteString());
 		values.put(SessionOpenHelper.COLUMN_CUSTOMNAME, session.getCustomName());
 		values.put(SessionOpenHelper.COLUMN_DATECREATED, session.getDateCreated());
 		values.put(SessionOpenHelper.COLUMN_ASSOCIATEDMP3, session.getAssociatedMP3());
-		values.put(SessionOpenHelper.COLUMN_DATA, session.getData());
+		values.put(SessionOpenHelper.COLUMN_DATA, Util.convertIntArrToString(session.getData()));
 
 		long insertID = db.insert(SessionOpenHelper.TABLE_SESSIONS, null, values);
 
+		// Query the db for the item we just inserted so we can return a new object which will now have an id set
 		Cursor cursor = db.query(SessionOpenHelper.TABLE_SESSIONS, sessionColumns, SessionOpenHelper.COLUMN_ID + "=" + insertID, null, null, null, null);
 		cursor.moveToFirst();
 		Session newSession = cursorToSession(cursor);
@@ -68,12 +69,13 @@ public class SessionDataSource
 
 	public Session updateSession(Session session)
 	{
+		// Update an existing session
 		ContentValues values = new ContentValues();
-		values.put(SessionOpenHelper.COLUMN_NOTE, session.getNote());
+		values.put(SessionOpenHelper.COLUMN_NOTE, session.getNote().getNoteString());
 		values.put(SessionOpenHelper.COLUMN_CUSTOMNAME, session.getCustomName());
 		values.put(SessionOpenHelper.COLUMN_DATECREATED, session.getDateCreated());
 		values.put(SessionOpenHelper.COLUMN_ASSOCIATEDMP3, session.getAssociatedMP3());
-		values.put(SessionOpenHelper.COLUMN_DATA, session.getData());
+		values.put(SessionOpenHelper.COLUMN_DATA, Util.convertIntArrToString(session.getData()));
 
 		String where = SessionOpenHelper.COLUMN_ID + "=?";
 		String[] whereArgs = new String[]
@@ -83,6 +85,7 @@ public class SessionDataSource
 
 		long updateID = db.update(SessionOpenHelper.TABLE_SESSIONS, values, where, whereArgs);
 
+		// Query the db for the updated item so we can return a new object with the updated information
 		Cursor cursor = db.query(SessionOpenHelper.TABLE_SESSIONS, sessionColumns, SessionOpenHelper.COLUMN_ID + "=" + updateID, null, null, null, null);
 		cursor.moveToFirst();
 		Session newSession = cursorToSession(cursor);
@@ -92,15 +95,14 @@ public class SessionDataSource
 
 	public void deleteSession(Session session)
 	{
-		long id = session.getID();
-		db.delete(SessionOpenHelper.TABLE_SESSIONS, SessionOpenHelper.COLUMN_ID + "=" + id, null);
+		db.delete(SessionOpenHelper.TABLE_SESSIONS, SessionOpenHelper.COLUMN_ID + "=" + session.getID(), null);
 	}
 
-	public ArrayList<Session> getSessionsWithNote(String note)
+	public ArrayList<Session> getSessionsWithNote(Note note)
 	{
 		ArrayList<Session> sessions = new ArrayList<Session>();
 
-		Cursor cursor = db.query(SessionOpenHelper.TABLE_SESSIONS, sessionColumns, SessionOpenHelper.COLUMN_NOTE + "=\"" + note + "\"", null, null, null, null);
+		Cursor cursor = db.query(SessionOpenHelper.TABLE_SESSIONS, sessionColumns, SessionOpenHelper.COLUMN_NOTE + "=\"" + note.getNoteString() + "\"", null, null, null, null);
 		cursor.moveToFirst();
 
 		while(!cursor.isAfterLast())
@@ -110,24 +112,6 @@ public class SessionDataSource
 			cursor.moveToNext();
 		}
 
-		cursor.close();
-
-		return sessions;
-	}
-
-	public ArrayList<Session> getAllSessions()
-	{
-		ArrayList<Session> sessions = new ArrayList<Session>();
-
-		Cursor cursor = db.query(SessionOpenHelper.TABLE_SESSIONS, sessionColumns, null, null, null, null, null);
-		cursor.moveToFirst();
-
-		while(!cursor.isAfterLast())
-		{
-			Session session = cursorToSession(cursor);
-			sessions.add(session);
-			cursor.moveToNext();
-		}
 		cursor.close();
 
 		return sessions;
@@ -137,11 +121,13 @@ public class SessionDataSource
 	{
 		Session session = new Session();
 		session.setID(cursor.getLong(0));
-		session.setNote(cursor.getString(1));
+		// Convert the string to enum
+		session.setNote(Util.stringToNote(cursor.getString(1)));
 		session.setCustomName(cursor.getString(2));
 		session.setDateCreated(cursor.getLong(3));
 		session.setAssociatedMP3(cursor.getString(4));
-		session.setData(cursor.getString(5));
+		// Convert the String to ArrayList<Integer>
+		session.setData(Util.convertStringToIntArr(cursor.getString(5)));
 		return session;
 	}
 }
