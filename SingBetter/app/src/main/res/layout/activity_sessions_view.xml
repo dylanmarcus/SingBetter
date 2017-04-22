@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RecordedSessions.RecyclerView.SessionsViewActivity">
+    tools:context=".RecordedSessions.SessionsViewActivity">
 
     <Button
         android:id="@+id/sessions_note_left"
@@ -41,13 +41,42 @@
         android:layout_marginRight="8dp"
         app:layout_constraintRight_toRightOf="parent"/>
 
+    <Button
+        android:id="@+id/session_delete_confirm"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="56dp"
+        android:text="Delete Selected"
+        android:enabled="false"
+        android:textSize="8sp"
+        android:visibility="invisible"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/sessions_current_note"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <Button
+        android:id="@+id/session_delete_cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="56dp"
+        android:text="Cancel"
+        android:enabled="false"
+        android:textSize="8sp"
+        android:visibility="invisible"
+        app:layout_constraintLeft_toRightOf="@+id/sessions_current_note"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/sessions_recycler"
-        android:layout_width="350dp"
+        android:layout_width="match_parent"
         android:layout_height="400dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginLeft="0dp"
         android:layout_marginTop="100dp">
 
     </android.support.v7.widget.RecyclerView>

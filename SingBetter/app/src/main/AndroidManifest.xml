@@ -16,7 +16,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".RecordedSessions.RecyclerView.SessionsViewActivity">
+        <activity android:name=".RecordedSessions.SessionsViewActivity">
 
         </activity>
         <activity android:name=".RecordedSessions.ItemView.ItemActivity">

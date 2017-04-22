@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import com.inyourface.singbetter.RecordedSessions.RecyclerView.SessionsViewActivity;
+import com.inyourface.singbetter.RecordedSessions.SessionsViewActivity;
 
 public class MainActivity extends AppCompatActivity
 {
