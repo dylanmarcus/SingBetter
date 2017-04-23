@@ -15,7 +15,8 @@
         android:layout_marginLeft="8dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="8dp"/>
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="8dp"/>
 
     <TextView
         android:id="@+id/sessions_current_note"
@@ -29,7 +30,9 @@
         app:layout_constraintVertical_bias="0.032"
         android:layout_marginTop="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"/>
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"/>
 
     <Button
         android:id="@+id/session_note_right"
@@ -39,45 +42,69 @@
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="8dp"
         android:layout_marginRight="8dp"
-        app:layout_constraintRight_toRightOf="parent"/>
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginEnd="8dp"/>
 
     <Button
-        android:id="@+id/session_delete_confirm"
+        android:id="@+id/session_enter_delete_mode"
         android:layout_width="wrap_content"
-        android:layout_height="30dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="56dp"
-        android:text="Delete Selected"
-        android:enabled="false"
-        android:textSize="8sp"
-        android:visibility="invisible"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@+id/sessions_current_note"
-        app:layout_constraintTop_toTopOf="parent"/>
+        android:layout_height="48dp"
+
+        android:text="Delete"
+
+        app:layout_constraintLeft_toRightOf="@+id/session_delete_cancel"
+        app:layout_constraintRight_toLeftOf="@+id/session_delete_finish"
+        app:layout_constraintTop_toBottomOf="@id/sessions_note_left"/>
 
     <Button
         android:id="@+id/session_delete_cancel"
         android:layout_width="wrap_content"
-        android:layout_height="30dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="56dp"
+        android:layout_height="48dp"
+
         android:text="Cancel"
+
         android:enabled="false"
-        android:textSize="8sp"
         android:visibility="invisible"
-        app:layout_constraintLeft_toRightOf="@+id/sessions_current_note"
+
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/session_delete_undo"
+        app:layout_constraintTop_toBottomOf="@id/sessions_note_left"/>
+
+    <Button
+        android:id="@+id/session_delete_undo"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+
+        android:text="Undo"
+
+        android:enabled="false"
+        android:visibility="invisible"
+
+        app:layout_constraintLeft_toRightOf="@+id/session_delete_cancel"
+        app:layout_constraintRight_toLeftOf="@+id/session_delete_finish"
+        app:layout_constraintTop_toBottomOf="@id/sessions_note_left"/>
+
+    <Button
+        android:id="@+id/session_delete_finish"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+
+        android:text="Finish"
+
+        android:enabled="false"
+        android:visibility="invisible"
+
+        app:layout_constraintLeft_toRightOf="@id/session_delete_undo"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toBottomOf="@id/sessions_note_left"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/sessions_recycler"
-        android:layout_width="match_parent"
+        android:layout_width="360dp"
         android:layout_height="400dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="100dp">
+        app:layout_constraintRight_toRightOf="parent">
 
     </android.support.v7.widget.RecyclerView>
 </android.support.constraint.ConstraintLayout>

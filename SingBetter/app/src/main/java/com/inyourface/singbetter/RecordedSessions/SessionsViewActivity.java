@@ -1,6 +1,5 @@
 package com.inyourface.singbetter.RecordedSessions;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
@@ -14,7 +13,6 @@ import com.inyourface.singbetter.Objects.Note;
 import com.inyourface.singbetter.R;
 import com.inyourface.singbetter.Objects.Session;
 import com.inyourface.singbetter.RecordedSessions.RecyclerView.RecyclerViewAdapter;
-import com.inyourface.singbetter.RecordedSessions.RecyclerView.RecyclerViewHolder;
 import com.inyourface.singbetter.Util;
 import com.inyourface.singbetter.db.SessionDAL;
 
@@ -26,21 +24,27 @@ import java.util.ArrayList;
 
 public class SessionsViewActivity extends AppCompatActivity
 {
+	private boolean deleteMode;
+	private Note currentNote;
 	private TextView currentNoteTextView;
+
 	private Button leftButton;
 	private Button rightButton;
-	private Button deleteConfirmButton;
+	private Button enterDeleteModeButton;
+
 	private Button deleteCancelButton;
+	private Button deleteUndoButton;
+	private Button deleteFinishButton;
+
+	private ArrayList<Session> toBeRemoved;
+	private ArrayList<Session> displayedSessions;
+
 	private RecyclerView sessionsRecycler;
 	private LinearLayoutManager sessionsLayoutManager;
-
-	private boolean deleteMode;
-	public ArrayList<RecyclerViewHolder> selectedItems;
-
-	private ArrayList<Session> displayedSessions;
 	private RecyclerViewAdapter adapter;
-	private Note currentNote;
+
 	private SessionDAL db;
+
 	public static SessionsViewActivity act;
 
 	@Override
@@ -51,23 +55,28 @@ public class SessionsViewActivity extends AppCompatActivity
 
 		act = this;
 
+		db = new SessionDAL(this);
+		db.open();
+
 		deleteMode = false;
-		selectedItems = new ArrayList<RecyclerViewHolder>();
+		toBeRemoved = new ArrayList<Session>();
 
 		currentNote = Note.C_SHARP;
 		currentNoteTextView = (TextView) findViewById(R.id.sessions_current_note);
+
 		leftButton = (Button) findViewById(R.id.sessions_note_left);
 		rightButton = (Button) findViewById(R.id.session_note_right);
-		deleteConfirmButton = (Button) findViewById(R.id.session_delete_confirm);
+		enterDeleteModeButton = (Button) findViewById(R.id.session_enter_delete_mode);
+
 		deleteCancelButton = (Button) findViewById(R.id.session_delete_cancel);
+		deleteUndoButton = (Button) findViewById(R.id.session_delete_undo);
+		deleteFinishButton = (Button) findViewById(R.id.session_delete_finish);
 
 		/**
 		 * Database interactions should be performed on a background thread, no matter
 		 * what kind of query they are.
 		 * TODO: Thread DB stuff (good practice even if not necessary?)
 		 */
-		db = new SessionDAL(this);
-		db.open();
 
 		// The loop below just generates mostly random data.
 		//for(int i = 0; i < 100; i++)
@@ -75,16 +84,15 @@ public class SessionsViewActivity extends AppCompatActivity
 		//	db.insertSession(Util.generateSession());
 		//}
 
+		// This sets up the recycler view
 		displayedSessions = db.getSessionsWithNote(currentNote);
-
-
-
 		sessionsRecycler = (RecyclerView) findViewById(R.id.sessions_recycler);
 		sessionsLayoutManager = new LinearLayoutManager(getBaseContext());
 		sessionsRecycler.setLayoutManager(sessionsLayoutManager);
 		adapter = new RecyclerViewAdapter(displayedSessions);
 		sessionsRecycler.setAdapter(adapter);
 
+		// This adds the diving lines between each item in the recycler view
 		DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(sessionsRecycler.getContext(), sessionsLayoutManager.getOrientation());
 		sessionsRecycler.addItemDecoration(dividerItemDecoration);
 
@@ -141,12 +149,12 @@ public class SessionsViewActivity extends AppCompatActivity
 			}
 		});
 
-		deleteConfirmButton.setOnClickListener(new View.OnClickListener()
+		enterDeleteModeButton.setOnClickListener(new View.OnClickListener()
 		{
 			@Override
 			public void onClick(View v)
 			{
-				setDeleteMode(false);
+				setDeleteMode(true);
 			}
 		});
 
@@ -155,13 +163,42 @@ public class SessionsViewActivity extends AppCompatActivity
 			@Override
 			public void onClick(View v)
 			{
-				for(RecyclerViewHolder rvh : selectedItems)
+				for(Session session : toBeRemoved)
 				{
-					rvh.sessionCustomNameTextView.setBackgroundColor(Color.TRANSPARENT);
-					rvh.sessionDateCreatedTextView.setBackgroundColor(Color.TRANSPARENT);
-					rvh.setSelected(false);
+					displayedSessions.add(session);
 				}
-				selectedItems.clear();
+				toBeRemoved.clear();
+				adapter.notifyDataSetChanged();
+				setDeleteMode(false);
+			}
+		});
+
+		deleteUndoButton.setOnClickListener(new View.OnClickListener()
+		{
+			@Override
+			public void onClick(View v)
+			{
+				displayedSessions.add(toBeRemoved.get(toBeRemoved.size() - 1));
+				toBeRemoved.remove(toBeRemoved.size() - 1);
+				adapter.notifyDataSetChanged();
+
+				if(toBeRemoved.size() == 0)
+				{
+					deleteUndoButton.setEnabled(false);
+				}
+			}
+		});
+
+		deleteFinishButton.setOnClickListener(new View.OnClickListener()
+		{
+			@Override
+			public void onClick(View v)
+			{
+				for(Session session : toBeRemoved)
+				{
+					db.deleteSession(session);
+				}
+				toBeRemoved.clear();
 				setDeleteMode(false);
 			}
 		});
@@ -176,7 +213,19 @@ public class SessionsViewActivity extends AppCompatActivity
 		db.close();
 	}
 
-	public void setDeleteMode(boolean value)
+	public void setUndoButton(boolean value)
+	{
+		deleteUndoButton.setEnabled(value);
+	}
+
+	public void insertToBeRemoved(int pos)
+	{
+		toBeRemoved.add(displayedSessions.get(pos));
+		displayedSessions.remove(pos);
+		adapter.notifyItemRemoved(pos);
+	}
+
+	private void setDeleteMode(boolean value)
 	{
 		if(deleteMode == value)
 		{
@@ -200,19 +249,27 @@ public class SessionsViewActivity extends AppCompatActivity
 		{
 			leftButton.setEnabled(false);
 			rightButton.setEnabled(false);
-			deleteConfirmButton.setEnabled(true);
-			deleteConfirmButton.setVisibility(View.VISIBLE);
+			enterDeleteModeButton.setEnabled(false);
+			enterDeleteModeButton.setVisibility(View.INVISIBLE);
 			deleteCancelButton.setEnabled(true);
 			deleteCancelButton.setVisibility(View.VISIBLE);
+			//deleteUndoButton.setEnabled(true);
+			deleteUndoButton.setVisibility(View.VISIBLE);
+			deleteFinishButton.setEnabled(true);
+			deleteFinishButton.setVisibility(View.VISIBLE);
 		}
 		else
 		{
 			leftButton.setEnabled(true);
 			rightButton.setEnabled(true);
-			deleteConfirmButton.setEnabled(false);
-			deleteConfirmButton.setVisibility(View.INVISIBLE);
+			enterDeleteModeButton.setEnabled(true);
+			enterDeleteModeButton.setVisibility(View.VISIBLE);
 			deleteCancelButton.setEnabled(false);
 			deleteCancelButton.setVisibility(View.INVISIBLE);
+			deleteUndoButton.setEnabled(false);
+			deleteUndoButton.setVisibility(View.INVISIBLE);
+			deleteFinishButton.setEnabled(false);
+			deleteFinishButton.setVisibility(View.INVISIBLE);
 		}
 	}
 }
