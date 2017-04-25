@@ -1,3 +1,11 @@
-.DS_Store
-SingBetter/.idea/codeStyleSettings.xml
+*.iml
+.gradle
+SingBetter/local.properties
+SingBetter/.idea/workspace.xml
+SingBetter/.idea/libraries
 SingBetter/.idea/vcs.xml
+.DS_Store
+SingBetter/build
+SingBetter/captures
+SingBetter/app/build
+.externalNativeBuild
