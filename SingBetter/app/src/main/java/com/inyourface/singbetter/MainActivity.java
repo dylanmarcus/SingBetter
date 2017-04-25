@@ -106,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
         hm.put("B", new Double(493.88));
 
 
-        AudioDispatcher dispatcher = AudioDispatcherFactory.fromDefaultMicrophone(22050,1024,0);
+        /*AudioDispatcher dispatcher = AudioDispatcherFactory.fromDefaultMicrophone(22050,1024,0);
 
         PitchDetectionHandler pdh = new PitchDetectionHandler() {
             @Override
@@ -164,7 +164,7 @@ public class MainActivity extends AppCompatActivity {
         AudioProcessor p = new PitchProcessor(PitchEstimationAlgorithm.FFT_YIN, 22050, 1024, pdh);
         dispatcher.addAudioProcessor(p);
         Thread t = new Thread(dispatcher,"Audio Dispatcher");
-        t.start();
+        t.start();*/
         //freqText.setText("" + freqString + " Hz ");
         //current_note_text.setText(currentNote);
     }
