@@ -21,9 +21,10 @@ import be.tarsos.dsp.pitch.PitchDetectionResult;
 import be.tarsos.dsp.pitch.PitchProcessor;
 import be.tarsos.dsp.pitch.PitchProcessor.PitchEstimationAlgorithm;
 
-public class MainActivity extends AppCompatActivity {
+import com.inyourface.singbetter.RecordedSessions.SessionsViewActivity;
 
-
+public class MainActivity extends AppCompatActivity
+{
     private TextView freqText;
     private Button freqButton;
     private Button historyViewButton;
@@ -171,8 +172,8 @@ public class MainActivity extends AppCompatActivity {
 
     /** Called when the user taps the History button */
     public void goToHistoryView(View view) {
-        Intent intent = new Intent(this, HistoryView.class);
-        startActivity(intent);
+				Intent intent = new Intent(MainActivity.this, SessionsViewActivity.class);
+				startActivity(intent);
     }
 
     /** Called when the user taps the Note Select button */
