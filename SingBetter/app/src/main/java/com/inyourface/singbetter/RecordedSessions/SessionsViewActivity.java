@@ -79,10 +79,10 @@ public class SessionsViewActivity extends AppCompatActivity
 		 */
 
 		// The loop below just generates mostly random data.
-		//for(int i = 0; i < 100; i++)
-		//{
-		//	db.insertSession(Util.generateSession());
-		//}
+		for(int i = 0; i < 50; i++)
+		{
+			db.insertSession(Util.generateSession());
+		}
 
 		// This sets up the recycler view
 		displayedSessions = db.getSessionsWithNote(currentNote);

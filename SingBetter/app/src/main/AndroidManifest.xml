@@ -21,7 +21,6 @@
         </activity>
         <activity android:name=".RecordedSessions.SessionsViewActivity"> </activity>
         <activity android:name=".RecordedSessions.ItemView.ItemActivity"> </activity>
-        <activity android:name=".HistoryView" android:screenOrientation="portrait" > </activity>
     </application>
 
 </manifest>
