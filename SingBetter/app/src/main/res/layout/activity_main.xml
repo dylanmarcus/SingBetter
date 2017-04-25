@@ -65,5 +65,4 @@
         android:text="C"
         android:textSize="70dp"
         android:textColor="#000" />
-
 </RelativeLayout>

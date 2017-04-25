@@ -19,8 +19,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".NoteSelectActivity" android:screenOrientation="portrait" />
-        <activity android:name=".HistoryView" android:screenOrientation="portrait" > </activity>
+        <activity android:name=".RecordedSessions.SessionsViewActivity"> </activity>
+        <activity android:name=".RecordedSessions.ItemView.ItemActivity"> </activity>
     </application>
 
 </manifest>
