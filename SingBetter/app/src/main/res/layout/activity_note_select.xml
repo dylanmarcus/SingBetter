@@ -4,13 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.inyourface.singbetter.NoteSelectActivity">
+    tools:context="com.inyourface.singbetter.NoteSelectActivity"
+    style="@style/GradientBackground">
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="fitXY"
-        android:src="@drawable/background"/>
+    <!--<ImageView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:scaleType="fitXY"-->
+        <!--android:src="@drawable/background"/>-->
 
     <!--<TextView
         android:id="@+id/note_select_title_text"
