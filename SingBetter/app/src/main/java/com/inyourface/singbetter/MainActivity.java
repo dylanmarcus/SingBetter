@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity
     private Button historyViewButton;
     private Button noteSelectViewButton;
     // The octave: C C#(D♭) D D#(E♭) E F F#(G♭) G G#(A♭) A A#(B♭) B
-    //private enum Note {A, Asharp, B, C, Csharp, D, Dsharp, E, F, Fsharp, G, Gsharp};
+    private enum Note {A, Asharp, B, C, Csharp, D, Dsharp, E, F, Fsharp, G, Gsharp};
     private double adjustPitchMinDif;
     private String currentNote;
     double pitchInHz;
@@ -107,8 +107,9 @@ public class MainActivity extends AppCompatActivity
         hm.put("A#", new Double(466.16));
         hm.put("B", new Double(493.88));
 
-
-        /*AudioDispatcher dispatcher = AudioDispatcherFactory.fromDefaultMicrophone(22050,1024,0);
+        // START Pitch Code to comment/uncomment
+        /*
+        AudioDispatcher dispatcher = AudioDispatcherFactory.fromDefaultMicrophone(22050,1024,0);
 
         PitchDetectionHandler pdh = new PitchDetectionHandler() {
             @Override
@@ -167,6 +168,7 @@ public class MainActivity extends AppCompatActivity
         dispatcher.addAudioProcessor(p);
         Thread t = new Thread(dispatcher,"Audio Dispatcher");
         t.start();*/
+        // END Pitch Code to comment/uncomment
         //freqText.setText("" + freqString + " Hz ");
         //current_note_text.setText(currentNote);
     }
