@@ -111,6 +111,18 @@ public class Util
 		return null;
 	}
 
+	public static String[] getAllNoteStrings()
+	{
+		Note[] notes = Note.values();
+		String[] stringNotes = new String[notes.length];
+		for(int i = 0; i < notes.length; i++)
+		{
+			stringNotes[i] = notes[i].getNoteString();
+		}
+
+		return stringNotes;
+	}
+
 
 	/**
 		TODO: Stuff below to be deleted before final product is done.

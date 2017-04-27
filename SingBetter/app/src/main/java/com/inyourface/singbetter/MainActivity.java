@@ -24,6 +24,7 @@ import be.tarsos.dsp.pitch.PitchDetectionResult;
 import be.tarsos.dsp.pitch.PitchProcessor;
 import be.tarsos.dsp.pitch.PitchProcessor.PitchEstimationAlgorithm;
 
+import com.inyourface.singbetter.Objects.Note;
 import com.inyourface.singbetter.RecordedSessions.SessionsViewActivity;
 
 
@@ -36,14 +37,13 @@ public class MainActivity extends AppCompatActivity
     private Button historyViewButton;
     private Button noteSelectViewButton;
     // The octave: C C#(D♭) D D#(E♭) E F F#(G♭) G G#(A♭) A A#(B♭) B
-    private enum Note {A, Asharp, B, C, Csharp, D, Dsharp, E, F, Fsharp, G, Gsharp};
+    //private enum Note {A, Asharp, B, C, Csharp, D, Dsharp, E, F, Fsharp, G, Gsharp};
     private double adjustPitchMinDif;
-    private String currentNote;
     double pitchInHz;
     double adjustedPitchInHz;
     String passedNote = null;
-    private TextView desiredNoteText;
     private TextView current_note_text;
+    private Note currentNote;
 
     // Create a hash map
     HashMap hm;
@@ -54,13 +54,7 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        currentNote = "C";
-
-        desiredNoteText = (TextView) findViewById(R.id.desired_note_text);
-        // Get Selected Note
-        passedNote=getIntent().getStringExtra(NoteSelectActivity.SELECTED);
-        // Set desired Note Text
-        desiredNoteText.setText(passedNote);
+        currentNote = Note.C_SHARP;
 
         // Buttons
         historyViewButton = (Button) findViewById(R.id.history_view_button);
@@ -73,6 +67,7 @@ public class MainActivity extends AppCompatActivity
         pitchInHz = 0.0;
         freqText = (TextView) findViewById(R.id.freq_text);
         current_note_text = (TextView) findViewById(R.id.current_note_text);
+        current_note_text.setText(currentNote.getNoteString());
 
         // Take the pitch in Hz and convert it into a note
         // Frequency of a note that is +/- n half steps away
@@ -181,7 +176,6 @@ public class MainActivity extends AppCompatActivity
         //freqText.setText("" + freqString + " Hz ");
         //current_note_text.setText(currentNote);
     }
-
     /** Called when the user taps the History button */
     public void goToHistoryView(View view) {
 		Intent intent = new Intent(MainActivity.this, SessionsViewActivity.class);
@@ -191,7 +185,15 @@ public class MainActivity extends AppCompatActivity
     /** Called when the user taps the Note Select button */
     public void goToNoteSelectActivity(View view) {
         Intent intent = new Intent(this, NoteSelectActivity.class);
-        startActivity(intent);
+        int requestCode = 1;
+        startActivityForResult(intent, requestCode);
+    }
+
+    // Called when a startActivityForResult is finished. Request codes need to be checked (if we have more than 1 startActivityForResult).
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        currentNote = Util.stringToNote(data.getStringExtra("test")); // TODO: This needs a meaningful id
+        current_note_text.setText(currentNote.getNoteString());
     }
 
     /** Called when the user taps the Record Button */

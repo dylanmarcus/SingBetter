@@ -1,5 +1,7 @@
 *.iml
 .gradle
+SingBetter/gradlew
+SingBetter/gradlew.bat
 SingBetter/local.properties
 SingBetter/.idea/workspace.xml
 SingBetter/.idea/libraries
@@ -9,3 +11,4 @@ SingBetter/build
 SingBetter/captures
 SingBetter/app/build
 .externalNativeBuild
+SingBetter/.idea/misc.xml
