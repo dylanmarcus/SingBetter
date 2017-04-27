@@ -192,8 +192,11 @@ public class MainActivity extends AppCompatActivity
     // Called when a startActivityForResult is finished. Request codes need to be checked (if we have more than 1 startActivityForResult).
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
     {
-        currentNote = Util.stringToNote(data.getStringExtra("test")); // TODO: This needs a meaningful id
-        current_note_text.setText(currentNote.getNoteString());
+        if(resultCode == RESULT_OK)
+        {
+            currentNote = Util.stringToNote(data.getStringExtra("test")); // TODO: This needs a meaningful id
+            current_note_text.setText(currentNote.getNoteString());
+        }
     }
 
     /** Called when the user taps the Record Button */
