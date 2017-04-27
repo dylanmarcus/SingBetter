@@ -5,15 +5,27 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RecordedSessions.SessionsViewActivity"
-    style="@style/GradientBackground">
+    style="@style/GradientBackground"
+    tools:context=".RecordedSessions.SessionsViewActivity">
 
-    <Button
-        android:id="@+id/sessions_note_left"
-        android:layout_width="wrap_content"
+    <ImageView
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="left"
+        android:scaleType="fitXY"
+        android:src="@drawable/background"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp" />
+
+    <ImageButton
+        android:id="@+id/sessions_note_left"
+        android:scaleType="fitCenter"
+        android:src="@drawable/left_arrow_icon"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
         android:layout_marginLeft="8dp"
+        android:background="#00ffffff"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="8dp"
@@ -24,6 +36,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="C#"
+        android:textSize="50sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -35,69 +48,71 @@
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"/>
 
-    <Button
+    <ImageButton
         android:id="@+id/session_note_right"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="right"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:scaleType="fitCenter"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="8dp"
         android:layout_marginRight="8dp"
+        android:src="@drawable/right_arrow_icon"
+        android:background="#00ffffff"
         app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginEnd="8dp"/>
+        android:layout_marginEnd="8dp"
+        />
 
-    <Button
+    <ImageButton
         android:id="@+id/session_enter_delete_mode"
-        android:layout_width="wrap_content"
-        android:layout_height="48dp"
-
-        android:text="Delete"
-
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/trash_icon"
+        android:background="#00ffffff"
         app:layout_constraintLeft_toRightOf="@+id/session_delete_cancel"
         app:layout_constraintRight_toLeftOf="@+id/session_delete_finish"
-        app:layout_constraintTop_toBottomOf="@id/sessions_note_left"/>
+        app:layout_constraintTop_toBottomOf="@+id/sessions_note_left"/>
 
     <Button
         android:id="@+id/session_delete_cancel"
         android:layout_width="wrap_content"
         android:layout_height="48dp"
-
         android:text="Cancel"
-
+        android:textColor="#000000"
         android:enabled="false"
+        android:background="#00ffffff"
         android:visibility="invisible"
 
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@+id/session_delete_undo"
-        app:layout_constraintTop_toBottomOf="@id/sessions_note_left"/>
+        app:layout_constraintTop_toBottomOf="@+id/sessions_note_left"/>
 
-    <Button
+    <ImageButton
         android:id="@+id/session_delete_undo"
-        android:layout_width="wrap_content"
-        android:layout_height="48dp"
-
-        android:text="Undo"
-
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:scaleType="fitCenter"
         android:enabled="false"
+        android:background="#00ffffff"
         android:visibility="invisible"
-
+        android:src="@drawable/undo_icon"
         app:layout_constraintLeft_toRightOf="@+id/session_delete_cancel"
         app:layout_constraintRight_toLeftOf="@+id/session_delete_finish"
-        app:layout_constraintTop_toBottomOf="@id/sessions_note_left"/>
+        app:layout_constraintTop_toBottomOf="@+id/sessions_note_left"/>
 
     <Button
         android:id="@+id/session_delete_finish"
         android:layout_width="wrap_content"
         android:layout_height="48dp"
-
+        android:background="#00ffffff"
         android:text="Finish"
-
+        android:textColor="#000000"
         android:enabled="false"
         android:visibility="invisible"
 
-        app:layout_constraintLeft_toRightOf="@id/session_delete_undo"
+        app:layout_constraintLeft_toRightOf="@+id/session_delete_undo"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/sessions_note_left"/>
+        app:layout_constraintTop_toBottomOf="@+id/sessions_note_left"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/sessions_recycler"

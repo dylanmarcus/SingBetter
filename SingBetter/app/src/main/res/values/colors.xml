@@ -6,4 +6,6 @@
     <color name="white">#FFFFFF</color>
     <color name="bgPurple">#23AE55</color>
     <color name="bgBlue">#6D7BD8</color>
+    <color name="black">#000000</color>
+
 </resources>

@@ -35,22 +35,26 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true" >
 
-        <Button
+        <ImageButton
             android:id="@+id/history_view_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:scaleType="fitCenter"
+            android:layout_alignParentEnd="true"
             android:onClick="goToHistoryView"
-            android:text="History" />
+            android:src="@drawable/history_icon"
+            android:background="#00ffffff"/>
 
 
-        <Button
+        <ImageButton
             android:id="@+id/note_select_view_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:onClick="goToNoteSelectActivity"
-            android:text="Select note" />
+            android:layout_width="80dp"
+            android:layout_height="60dp"
+            android:src="@drawable/music_note_icon"
+            android:background="#00ffffff"
+            android:scaleType="fitCenter"
+            android:onClick="goToNoteSelectActivity" />
+
 
         <!-- record button -->
         <ToggleButton

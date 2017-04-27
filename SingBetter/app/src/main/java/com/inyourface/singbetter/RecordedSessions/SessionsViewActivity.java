@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.inyourface.singbetter.Objects.Note;
@@ -28,12 +29,12 @@ public class SessionsViewActivity extends AppCompatActivity
 	private Note currentNote;
 	private TextView currentNoteTextView;
 
-	private Button leftButton;
-	private Button rightButton;
-	private Button enterDeleteModeButton;
+	private ImageButton leftButton;
+	private ImageButton rightButton;
+	private ImageButton enterDeleteModeButton;
 
 	private Button deleteCancelButton;
-	private Button deleteUndoButton;
+	private ImageButton deleteUndoButton;
 	private Button deleteFinishButton;
 
 	private ArrayList<Session> toBeRemoved;
@@ -64,12 +65,12 @@ public class SessionsViewActivity extends AppCompatActivity
 		currentNote = Note.C_SHARP;
 		currentNoteTextView = (TextView) findViewById(R.id.sessions_current_note);
 
-		leftButton = (Button) findViewById(R.id.sessions_note_left);
-		rightButton = (Button) findViewById(R.id.session_note_right);
-		enterDeleteModeButton = (Button) findViewById(R.id.session_enter_delete_mode);
+		leftButton = (ImageButton) findViewById(R.id.sessions_note_left);
+		rightButton = (ImageButton) findViewById(R.id.session_note_right);
+		enterDeleteModeButton = (ImageButton) findViewById(R.id.session_enter_delete_mode);
 
 		deleteCancelButton = (Button) findViewById(R.id.session_delete_cancel);
-		deleteUndoButton = (Button) findViewById(R.id.session_delete_undo);
+		deleteUndoButton = (ImageButton) findViewById(R.id.session_delete_undo);
 		deleteFinishButton = (Button) findViewById(R.id.session_delete_finish);
 
 		/**

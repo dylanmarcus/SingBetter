@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ToggleButton;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -34,8 +35,8 @@ public class MainActivity extends AppCompatActivity
     private Button freqButton;
     private ToggleButton recordButton;
     private TextView recordArray;       // delete later
-    private Button historyViewButton;
-    private Button noteSelectViewButton;
+    private ImageButton historyViewButton;
+    private ImageButton noteSelectViewButton;
     // The octave: C C#(D♭) D D#(E♭) E F F#(G♭) G G#(A♭) A A#(B♭) B
     //private enum Note {A, Asharp, B, C, Csharp, D, Dsharp, E, F, Fsharp, G, Gsharp};
     private double adjustPitchMinDif;
@@ -57,8 +58,8 @@ public class MainActivity extends AppCompatActivity
         currentNote = Note.C_SHARP;
 
         // Buttons
-        historyViewButton = (Button) findViewById(R.id.history_view_button);
-        noteSelectViewButton = (Button) findViewById(R.id.note_select_view_button);
+        historyViewButton = (ImageButton) findViewById(R.id.history_view_button);
+        noteSelectViewButton = (ImageButton) findViewById(R.id.note_select_view_button);
         recordButton = (ToggleButton) findViewById(R.id.toggle_button_record);
 
         // shows frequencies in an array on main view (can delete later once data goes into database)
@@ -114,6 +115,11 @@ public class MainActivity extends AppCompatActivity
         // START Pitch Code to comment/uncomment
         /*
         AudioDispatcher dispatcher = AudioDispatcherFactory.fromDefaultMicrophone(22050,1024,0);
+=======
+
+
+        /*AudioDispatcher dispatcher = AudioDispatcherFactory.fromDefaultMicrophone(22050,1024,0);
+>>>>>>> UI_Improvement
 
         PitchDetectionHandler pdh = new PitchDetectionHandler() {
             @Override
