@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import java.util.HashMap;
@@ -28,8 +29,8 @@ public class MainActivity extends AppCompatActivity
 {
     private TextView freqText;
     private Button freqButton;
-    private Button historyViewButton;
-    private Button noteSelectViewButton;
+    private ImageButton historyViewButton;
+    private ImageButton noteSelectViewButton;
     // The octave: C C#(D♭) D D#(E♭) E F F#(G♭) G G#(A♭) A A#(B♭) B
     //private enum Note {A, Asharp, B, C, Csharp, D, Dsharp, E, F, Fsharp, G, Gsharp};
     private double adjustPitchMinDif;
@@ -58,8 +59,8 @@ public class MainActivity extends AppCompatActivity
         desiredNoteText.setText(passedNote);
 
         // Buttons
-        historyViewButton = (Button) findViewById(R.id.history_view_button);
-        noteSelectViewButton = (Button) findViewById(R.id.note_select_view_button);
+        historyViewButton = (ImageButton) findViewById(R.id.history_view_button);
+        noteSelectViewButton = (ImageButton) findViewById(R.id.note_select_view_button);
 
         pitchInHz = 0.0;
         freqText = (TextView) findViewById(R.id.freq_text);
@@ -106,6 +107,8 @@ public class MainActivity extends AppCompatActivity
         hm.put("A", new Double(440.00));
         hm.put("A#", new Double(466.16));
         hm.put("B", new Double(493.88));
+
+        // START Pitch Code to comment/uncomment
 
 
         /*AudioDispatcher dispatcher = AudioDispatcherFactory.fromDefaultMicrophone(22050,1024,0);
