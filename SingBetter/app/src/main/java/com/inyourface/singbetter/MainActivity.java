@@ -3,10 +3,13 @@ package com.inyourface.singbetter;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ToggleButton;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -28,6 +31,8 @@ public class MainActivity extends AppCompatActivity
 {
     private TextView freqText;
     private Button freqButton;
+    private ToggleButton recordButton;
+    private TextView recordArray;       // delete later
     private Button historyViewButton;
     private Button noteSelectViewButton;
     // The octave: C C#(D♭) D D#(E♭) E F F#(G♭) G G#(A♭) A A#(B♭) B
@@ -60,6 +65,10 @@ public class MainActivity extends AppCompatActivity
         // Buttons
         historyViewButton = (Button) findViewById(R.id.history_view_button);
         noteSelectViewButton = (Button) findViewById(R.id.note_select_view_button);
+        recordButton = (ToggleButton) findViewById(R.id.toggle_button_record);
+
+        // shows frequencies in an array on main view (can delete later once data goes into database)
+        recordArray = (TextView) findViewById(R.id.record_array_text);
 
         pitchInHz = 0.0;
         freqText = (TextView) findViewById(R.id.freq_text);
@@ -183,5 +192,30 @@ public class MainActivity extends AppCompatActivity
     public void goToNoteSelectActivity(View view) {
         Intent intent = new Intent(this, NoteSelectActivity.class);
         startActivity(intent);
+    }
+
+    /** Called when the user taps the Record Button */
+    public void changeRecordState (View view) {
+        ToggleRecord recordtimer = new ToggleRecord();
+        boolean on = ((ToggleButton) view).isChecked();
+        if (on) {
+            // do this when ON ...
+            recordArray.setText("Recording...");
+            // start recording data from pitchHz and store it into an ArrayList
+            recordtimer.start();
+        }
+        else {
+            // do this when OFF ...
+            // stop recording data
+            recordtimer.stop();
+            // copy ArrayList into a new ArrayList
+            ArrayList<Double> HzArray = recordtimer.getHzArray();
+            // Double ArrayList toString
+            String HzArrayToString = TextUtils.join(", ", HzArray);
+            // print the array string onto the screen
+            recordArray.setText(HzArrayToString);
+            // clear ArrayList (inside ToggleRecord.java)
+            recordtimer.clear();
+        }
     }
 }
