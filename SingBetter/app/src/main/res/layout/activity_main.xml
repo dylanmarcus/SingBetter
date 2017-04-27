@@ -53,6 +53,17 @@
             android:onClick="goToNoteSelectActivity"
             android:text="Select note" />
 
+        <!-- record button -->
+        <ToggleButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/toggle_button_record"
+            android:textOff="Record"
+            android:textOn="Stop"
+            android:background="@drawable/record_button"
+            android:onClick="changeRecordState" />
+
     </RelativeLayout>
 
     <TextView
@@ -64,6 +75,17 @@
         android:layout_marginTop="151dp"
         android:text="C"
         android:textSize="70dp"
+        android:textColor="#000" />
+
+    <!-- record pitch in Hz and display as an array -->
+    <TextView
+        android:id="@+id/record_array_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="440dp"
+        android:text="array"
+        android:textSize="20dp"
         android:textColor="#000" />
 
 </RelativeLayout>
