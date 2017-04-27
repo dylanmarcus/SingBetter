@@ -32,6 +32,9 @@ dependencies {
 
     compile 'com.android.support:appcompat-v7:25.2.0'
 
+    // Library for making graphs!
+    compile 'com.jjoe64:graphview:4.2.1'
+
     // This is the support library dependency for RecyclerView
     compile 'com.android.support:recyclerview-v7:25.2.0'
 
