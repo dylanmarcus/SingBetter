@@ -185,7 +185,7 @@ public class MainActivity extends AppCompatActivity
     /** Called when the user taps the Note Select button */
     public void goToNoteSelectActivity(View view) {
         Intent intent = new Intent(this, NoteSelectActivity.class);
-        int requestCode = 1;
+        int requestCode = 1; // This should be a constant defined somewhere, eg NOTE_SELECT_REQUEST_CODE
         startActivityForResult(intent, requestCode);
     }
 
