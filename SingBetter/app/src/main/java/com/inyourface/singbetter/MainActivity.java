@@ -1,6 +1,8 @@
 package com.inyourface.singbetter;
 
 import android.content.Intent;
+import android.support.percent.PercentLayoutHelper;
+import android.support.percent.PercentRelativeLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -44,6 +46,8 @@ public class MainActivity extends AppCompatActivity
     String passedNote = null;
     private TextView desiredNoteText;
     private TextView current_note_text;
+    private View userFrequencyBar;
+    private double frequencyBarPosition;
 
     // Create a hash map
     HashMap hm;
@@ -61,6 +65,13 @@ public class MainActivity extends AppCompatActivity
         passedNote=getIntent().getStringExtra(NoteSelectActivity.SELECTED);
         // Set desired Note Text
         desiredNoteText.setText(passedNote);
+
+        // Make user frequency bar accessable
+        userFrequencyBar = (View) findViewById(R.id.user_frequency_bar);
+        // Access frequency bar xml margin parameters
+        final PercentRelativeLayout.LayoutParams layoutParams = (PercentRelativeLayout.LayoutParams) userFrequencyBar.getLayoutParams();
+        final PercentLayoutHelper.PercentLayoutInfo percentLayoutInfo = layoutParams.getPercentLayoutInfo();
+
 
         // Buttons
         historyViewButton = (Button) findViewById(R.id.history_view_button);
@@ -117,7 +128,7 @@ public class MainActivity extends AppCompatActivity
         hm.put("B", new Double(493.88));
 
         // START Pitch Code to comment/uncomment
-        /*
+
         AudioDispatcher dispatcher = AudioDispatcherFactory.fromDefaultMicrophone(22050,1024,0);
 
         PitchDetectionHandler pdh = new PitchDetectionHandler() {
@@ -169,6 +180,13 @@ public class MainActivity extends AppCompatActivity
                         String freqString = String.format("%.2f", pitchInHz);
                         freqText.setText("" + freqString + " Hz ");
                         current_note_text.setText(currentNote);
+
+                        // calculate percentage value for bar position
+                        frequencyBarPosition = (100 - (pitchInHz / 7885.78) * 100) * 0.01f;
+
+                        // change frequency bar position
+                        percentLayoutInfo.topMarginPercent = (float) frequencyBarPosition;
+                        userFrequencyBar.setLayoutParams(layoutParams);
                     }
                 });
             }
@@ -176,7 +194,7 @@ public class MainActivity extends AppCompatActivity
         AudioProcessor p = new PitchProcessor(PitchEstimationAlgorithm.FFT_YIN, 22050, 1024, pdh);
         dispatcher.addAudioProcessor(p);
         Thread t = new Thread(dispatcher,"Audio Dispatcher");
-        t.start();*/
+        t.start();
         // END Pitch Code to comment/uncomment
         //freqText.setText("" + freqString + " Hz ");
         //current_note_text.setText(currentNote);
