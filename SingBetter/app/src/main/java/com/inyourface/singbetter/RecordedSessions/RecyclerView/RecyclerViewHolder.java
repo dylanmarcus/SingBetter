@@ -40,6 +40,12 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder implements View.
 	@Override
 	public void onClick(View v)
 	{
+		// We get a value of -1 if a click is received in empty space (possible during spam click of item deletion)
+		if(getAdapterPosition() == -1)
+		{
+			return;
+		}
+
 		if(SessionsViewActivity.act.getDeleteMode())
 		{
 			SessionsViewActivity.act.insertToBeRemoved(getAdapterPosition());
