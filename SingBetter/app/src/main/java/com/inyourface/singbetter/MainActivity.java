@@ -1,6 +1,8 @@
 package com.inyourface.singbetter;
 
 import android.content.Intent;
+import android.support.percent.PercentLayoutHelper;
+import android.support.percent.PercentRelativeLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -38,13 +40,15 @@ public class MainActivity extends AppCompatActivity
     private ImageButton historyViewButton;
     private ImageButton noteSelectViewButton;
     // The octave: C C#(D♭) D D#(E♭) E F F#(G♭) G G#(A♭) A A#(B♭) B
-    //private enum Note {A, Asharp, B, C, Csharp, D, Dsharp, E, F, Fsharp, G, Gsharp};
+    // private enum Note {A, Asharp, B, C, Csharp, D, Dsharp, E, F, Fsharp, G, Gsharp};
     private double adjustPitchMinDif;
     double pitchInHz;
     double adjustedPitchInHz;
     String passedNote = null;
     private TextView current_note_text;
     private Note currentNote;
+    private View userFrequencyBar;
+    private double frequencyBarPosition;
 
     // Create a hash map
     HashMap hm;
@@ -56,6 +60,13 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
 
         currentNote = Note.C_SHARP;
+
+        // Make user frequency bar accessable
+        userFrequencyBar = (View) findViewById(R.id.user_frequency_bar);
+        // Access frequency bar xml margin parameters
+        final PercentRelativeLayout.LayoutParams layoutParams = (PercentRelativeLayout.LayoutParams) userFrequencyBar.getLayoutParams();
+        final PercentLayoutHelper.PercentLayoutInfo percentLayoutInfo = layoutParams.getPercentLayoutInfo();
+
 
         // Buttons
         historyViewButton = (ImageButton) findViewById(R.id.history_view_button);
@@ -113,14 +124,8 @@ public class MainActivity extends AppCompatActivity
         hm.put("B", new Double(493.88));
 
         // START Pitch Code to comment/uncomment
-        /*
+        
         AudioDispatcher dispatcher = AudioDispatcherFactory.fromDefaultMicrophone(22050,1024,0);
-=======
-
-
-        /*AudioDispatcher dispatcher = AudioDispatcherFactory.fromDefaultMicrophone(22050,1024,0);
->>>>>>> UI_Improvement
-
         PitchDetectionHandler pdh = new PitchDetectionHandler() {
             @Override
             public void handlePitch(PitchDetectionResult result,AudioEvent e) {
@@ -164,12 +169,19 @@ public class MainActivity extends AppCompatActivity
                             if(currentDif < adjustPitchMinDif)
                             {
                                 adjustPitchMinDif = currentDif;
-                                currentNote = (String)me.getKey();
+                                currentNote = Util.stringToNote(me.getKey().toString());
                             }
                         }
                         String freqString = String.format("%.2f", pitchInHz);
                         freqText.setText("" + freqString + " Hz ");
-                        current_note_text.setText(currentNote);
+                        current_note_text.setText(currentNote.getNoteString());
+
+                        // calculate percentage value for bar position
+                        frequencyBarPosition = (100 - (pitchInHz / 7885.78) * 100) * 0.01f;
+
+                        // change frequency bar position
+                        percentLayoutInfo.topMarginPercent = (float) frequencyBarPosition;
+                        userFrequencyBar.setLayoutParams(layoutParams);
                     }
                 });
             }
@@ -177,10 +189,8 @@ public class MainActivity extends AppCompatActivity
         AudioProcessor p = new PitchProcessor(PitchEstimationAlgorithm.FFT_YIN, 22050, 1024, pdh);
         dispatcher.addAudioProcessor(p);
         Thread t = new Thread(dispatcher,"Audio Dispatcher");
-        t.start();*/
+        t.start();
         // END Pitch Code to comment/uncomment
-        //freqText.setText("" + freqString + " Hz ");
-        //current_note_text.setText(currentNote);
     }
     /** Called when the user taps the History button */
     public void goToHistoryView(View view) {

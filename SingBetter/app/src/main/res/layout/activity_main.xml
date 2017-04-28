@@ -5,11 +5,24 @@
     android:layout_height="fill_parent"
     style="@style/GradientBackground">
 
-    <!--<ImageView-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:scaleType="fitXY"-->
-        <!--android:src="@drawable/background"/>-->
+
+    <android.support.percent.PercentRelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <View
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/user_frequency_bar"
+            android:shape="rectangle"
+            android:layout_width="fill_parent"
+            android:layout_height="5sp"
+            android:background="@drawable/user_frequency_bar">
+        </View>
+
+    </android.support.percent.PercentRelativeLayout>
+
 
     <TextView
         android:id="@+id/freq_text"
@@ -68,18 +81,8 @@
             android:onClick="changeRecordState" />
 
     </RelativeLayout>
-<!--
-    <TextView
-        android:id="@+id/desired_note_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/freq_text"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="151dp"
-        android:text="C"
-        android:textSize="70dp"
-        android:textColor="#000" />
--->
+
+
     <!-- record pitch in Hz and display as an array -->
     <TextView
         android:id="@+id/record_array_text"
@@ -88,7 +91,6 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="440dp"
         android:text="array"
-        android:textSize="20dp"
-        android:textColor="#000" />
+        android:textSize="20dp" />
 
 </RelativeLayout>
