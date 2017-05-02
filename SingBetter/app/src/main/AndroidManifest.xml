@@ -11,17 +11,31 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.inyourface.singbetter.MainActivity" android:screenOrientation="portrait">
 
+        <activity
+            android:name="com.inyourface.singbetter.MainActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.inyourface.singbetter.NoteSelectActivity" android:screenOrientation="portrait" />
-        <activity android:name="com.inyourface.singbetter.RecordedSessions.SessionsViewActivity"> </activity>
-        <activity android:name="com.inyourface.singbetter.RecordedSessions.ItemView.ItemActivity"> </activity>
-    </application>
 
+        <activity
+            android:name="com.inyourface.singbetter.NoteSelectActivity"
+            android:screenOrientation="portrait">
+        </activity>
+
+        <activity
+            android:name="com.inyourface.singbetter.RecordedSessions.SessionsViewActivity"
+            android:screenOrientation="portrait">
+        </activity>
+
+        <activity
+            android:name="com.inyourface.singbetter.RecordedSessions.ItemView.ItemActivity"
+            android:screenOrientation="landscape"
+            android:configChanges="orientation|keyboardHidden">
+        </activity>
+
+    </application>
 </manifest>
