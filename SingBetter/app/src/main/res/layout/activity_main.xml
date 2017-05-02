@@ -25,7 +25,7 @@
         android:layout_height="wrap_content"
         android:textSize="50sp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="50dp"
         android:layout_below="@+id/freq_text"
         android:text="@string/current_note_text"
         android:textColor="#000" />
@@ -56,14 +56,26 @@
             android:scaleType="fitCenter"
             android:onClick="goToNoteSelectActivity" />
 
+        <!-- record button -->
+        <!--android:background="#00ffffff"-->
+        <!--android:onClick="changeRecordState"-->
 
-    </RelativeLayout>
+        <ImageButton
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/toggle_button_record"
+            android:src="@drawable/record_start_icon"
+            android:background="#ff0000"
+            />
+        </RelativeLayout>
+
 
     <TextView
         android:id="@+id/desired_note_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/freq_text"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="151dp"
         android:text="C"

@@ -29,6 +29,8 @@ public class MainActivity extends AppCompatActivity
 {
     private TextView freqText;
     private Button freqButton;
+    private ImageButton recordButton;
+    //private TextView recordArray;       // delete later
     private ImageButton historyViewButton;
     private ImageButton noteSelectViewButton;
     // The octave: C C#(D♭) D D#(E♭) E F F#(G♭) G G#(A♭) A A#(B♭) B
@@ -61,6 +63,11 @@ public class MainActivity extends AppCompatActivity
         // Buttons
         historyViewButton = (ImageButton) findViewById(R.id.history_view_button);
         noteSelectViewButton = (ImageButton) findViewById(R.id.note_select_view_button);
+
+        recordButton = (ImageButton) findViewById(R.id.toggle_button_record);
+
+        // shows frequencies in an array on main view (can delete later once data goes into database)
+        //recordArray = (TextView) findViewById(R.id.record_array_text);
 
         pitchInHz = 0.0;
         freqText = (TextView) findViewById(R.id.freq_text);
@@ -109,8 +116,7 @@ public class MainActivity extends AppCompatActivity
         hm.put("B", new Double(493.88));
 
         // START Pitch Code to comment/uncomment
-
-
+        
         /*AudioDispatcher dispatcher = AudioDispatcherFactory.fromDefaultMicrophone(22050,1024,0);
 
         PitchDetectionHandler pdh = new PitchDetectionHandler() {
@@ -170,8 +176,8 @@ public class MainActivity extends AppCompatActivity
         dispatcher.addAudioProcessor(p);
         Thread t = new Thread(dispatcher,"Audio Dispatcher");
         t.start();*/
-        //freqText.setText("" + freqString + " Hz ");
-        //current_note_text.setText(currentNote);
+
+        // END Pitch Code to comment/uncomment
     }
 
     /** Called when the user taps the History button */
