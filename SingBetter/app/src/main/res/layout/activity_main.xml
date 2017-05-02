@@ -38,7 +38,7 @@
         android:layout_height="wrap_content"
         android:textSize="50sp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="50dp"
         android:layout_below="@+id/freq_text"
         android:text="@string/current_note_text" />
 
@@ -68,19 +68,20 @@
             android:scaleType="fitCenter"
             android:onClick="goToNoteSelectActivity" />
 
-
         <!-- record button -->
-        <ToggleButton
+        <!--android:background="#00ffffff"-->
+        <!--android:onClick="changeRecordState"-->
+
+        <ImageButton
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:id="@+id/toggle_button_record"
-            android:textOff="Record"
-            android:textOn="Stop"
-            android:background="@drawable/record_button"
-            android:onClick="changeRecordState" />
-
-    </RelativeLayout>
+            android:src="@drawable/record_start_icon"
+            android:background="#ff0000"
+            />
+        </RelativeLayout>
 
 
     <!-- record pitch in Hz and display as an array -->

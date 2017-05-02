@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity
 {
     private TextView freqText;
     private Button freqButton;
-    private ToggleButton recordButton;
+    private ImageButton recordButton;
     private TextView recordArray;       // delete later
     private ImageButton historyViewButton;
     private ImageButton noteSelectViewButton;
@@ -71,7 +71,8 @@ public class MainActivity extends AppCompatActivity
         // Buttons
         historyViewButton = (ImageButton) findViewById(R.id.history_view_button);
         noteSelectViewButton = (ImageButton) findViewById(R.id.note_select_view_button);
-        recordButton = (ToggleButton) findViewById(R.id.toggle_button_record);
+
+        recordButton = (ImageButton) findViewById(R.id.toggle_button_record);
 
         // shows frequencies in an array on main view (can delete later once data goes into database)
         recordArray = (TextView) findViewById(R.id.record_array_text);
@@ -124,8 +125,7 @@ public class MainActivity extends AppCompatActivity
         hm.put("B", new Double(493.88));
 
         // START Pitch Code to comment/uncomment
-        
-        AudioDispatcher dispatcher = AudioDispatcherFactory.fromDefaultMicrophone(22050,1024,0);
+        /*AudioDispatcher dispatcher = AudioDispatcherFactory.fromDefaultMicrophone(22050,1024,0);
         PitchDetectionHandler pdh = new PitchDetectionHandler() {
             @Override
             public void handlePitch(PitchDetectionResult result,AudioEvent e) {
@@ -189,7 +189,11 @@ public class MainActivity extends AppCompatActivity
         AudioProcessor p = new PitchProcessor(PitchEstimationAlgorithm.FFT_YIN, 22050, 1024, pdh);
         dispatcher.addAudioProcessor(p);
         Thread t = new Thread(dispatcher,"Audio Dispatcher");
+<<<<<<< HEAD
         t.start();
+=======
+        t.start();*/
+
         // END Pitch Code to comment/uncomment
     }
     /** Called when the user taps the History button */

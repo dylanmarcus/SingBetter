@@ -250,6 +250,8 @@ public class SessionsViewActivity extends AppCompatActivity
 		{
 			leftButton.setEnabled(false);
 			rightButton.setEnabled(false);
+			leftButton.setVisibility(View.INVISIBLE);
+			rightButton.setVisibility(View.INVISIBLE);
 			enterDeleteModeButton.setEnabled(false);
 			enterDeleteModeButton.setVisibility(View.INVISIBLE);
 			deleteCancelButton.setEnabled(true);
@@ -263,6 +265,8 @@ public class SessionsViewActivity extends AppCompatActivity
 		{
 			leftButton.setEnabled(true);
 			rightButton.setEnabled(true);
+			leftButton.setVisibility(View.VISIBLE);
+			rightButton.setVisibility(View.VISIBLE);
 			enterDeleteModeButton.setEnabled(true);
 			enterDeleteModeButton.setVisibility(View.VISIBLE);
 			deleteCancelButton.setEnabled(false);
