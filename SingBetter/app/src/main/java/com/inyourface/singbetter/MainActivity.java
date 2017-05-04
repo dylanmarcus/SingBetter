@@ -1,6 +1,8 @@
 package com.inyourface.singbetter;
 
 import android.content.Intent;
+import android.support.percent.PercentLayoutHelper;
+import android.support.percent.PercentRelativeLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -33,18 +35,21 @@ public class MainActivity extends AppCompatActivity
 {
     private TextView freqText;
     private Button freqButton;
-    private ToggleButton recordButton;
+    private ImageButton recordButton;
     private TextView recordArray;       // delete later
     private ImageButton historyViewButton;
     private ImageButton noteSelectViewButton;
     // The octave: C C#(D♭) D D#(E♭) E F F#(G♭) G G#(A♭) A A#(B♭) B
-    //private enum Note {A, Asharp, B, C, Csharp, D, Dsharp, E, F, Fsharp, G, Gsharp};
+    // private enum Note {A, Asharp, B, C, Csharp, D, Dsharp, E, F, Fsharp, G, Gsharp};
     private double adjustPitchMinDif;
     double pitchInHz;
     double adjustedPitchInHz;
-    String passedNote = null;
+    Note passedNote;
     private TextView current_note_text;
     private Note currentNote;
+    private double screenRange;
+    private View userFrequencyBar;
+    private double frequencyBarPosition;
 
     // Create a hash map
     HashMap hm;
@@ -56,11 +61,21 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
 
         currentNote = Note.C_SHARP;
+        passedNote = Note.D;
+
+
+        // Make user frequency bar accessable
+        userFrequencyBar = (View) findViewById(R.id.user_frequency_bar);
+        // Access frequency bar xml margin parameters
+        final PercentRelativeLayout.LayoutParams layoutParams = (PercentRelativeLayout.LayoutParams) userFrequencyBar.getLayoutParams();
+        final PercentLayoutHelper.PercentLayoutInfo percentLayoutInfo = layoutParams.getPercentLayoutInfo();
+
 
         // Buttons
         historyViewButton = (ImageButton) findViewById(R.id.history_view_button);
         noteSelectViewButton = (ImageButton) findViewById(R.id.note_select_view_button);
-        recordButton = (ToggleButton) findViewById(R.id.toggle_button_record);
+
+        recordButton = (ImageButton) findViewById(R.id.toggle_button_record);
 
         // shows frequencies in an array on main view (can delete later once data goes into database)
         recordArray = (TextView) findViewById(R.id.record_array_text);
@@ -69,6 +84,7 @@ public class MainActivity extends AppCompatActivity
         freqText = (TextView) findViewById(R.id.freq_text);
         current_note_text = (TextView) findViewById(R.id.current_note_text);
         current_note_text.setText(currentNote.getNoteString());
+
 
         // Take the pitch in Hz and convert it into a note
         // Frequency of a note that is +/- n half steps away
@@ -112,15 +128,12 @@ public class MainActivity extends AppCompatActivity
         hm.put("A#", new Double(466.16));
         hm.put("B", new Double(493.88));
 
+
+
+
         // START Pitch Code to comment/uncomment
-        /*
+
         AudioDispatcher dispatcher = AudioDispatcherFactory.fromDefaultMicrophone(22050,1024,0);
-=======
-
-
-        /*AudioDispatcher dispatcher = AudioDispatcherFactory.fromDefaultMicrophone(22050,1024,0);
->>>>>>> UI_Improvement
-
         PitchDetectionHandler pdh = new PitchDetectionHandler() {
             @Override
             public void handlePitch(PitchDetectionResult result,AudioEvent e) {
@@ -164,12 +177,27 @@ public class MainActivity extends AppCompatActivity
                             if(currentDif < adjustPitchMinDif)
                             {
                                 adjustPitchMinDif = currentDif;
-                                currentNote = (String)me.getKey();
+                                currentNote = Util.stringToNote(me.getKey().toString());
                             }
                         }
                         String freqString = String.format("%.2f", pitchInHz);
                         freqText.setText("" + freqString + " Hz ");
-                        current_note_text.setText(currentNote);
+                        current_note_text.setText(currentNote.getNoteString());
+
+                        screenRange = passedNote.getMaxFrequency() - passedNote.getMinFrequency();
+
+
+                        // calculate percentage value for bar position
+                        if (adjustedPitchInHz > passedNote.getMaxFrequency())
+                            frequencyBarPosition = 0;
+                        else if (adjustedPitchInHz < passedNote.getMinFrequency())
+                            frequencyBarPosition = 0.99;
+                        else
+                            frequencyBarPosition = ( ( (passedNote.getMaxFrequency() - adjustedPitchInHz) / screenRange) * 100) * 0.01f;
+
+                        // change frequency bar position
+                        percentLayoutInfo.topMarginPercent = (float) frequencyBarPosition;
+                        userFrequencyBar.setLayoutParams(layoutParams);
                     }
                 });
             }
@@ -177,10 +205,9 @@ public class MainActivity extends AppCompatActivity
         AudioProcessor p = new PitchProcessor(PitchEstimationAlgorithm.FFT_YIN, 22050, 1024, pdh);
         dispatcher.addAudioProcessor(p);
         Thread t = new Thread(dispatcher,"Audio Dispatcher");
-        t.start();*/
+        t.start();
+
         // END Pitch Code to comment/uncomment
-        //freqText.setText("" + freqString + " Hz ");
-        //current_note_text.setText(currentNote);
     }
     /** Called when the user taps the History button */
     public void goToHistoryView(View view) {
