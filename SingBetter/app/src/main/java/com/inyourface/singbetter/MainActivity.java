@@ -234,7 +234,7 @@ public class MainActivity extends AppCompatActivity
     {
         if(resultCode == RESULT_OK)
         {
-            currentNote = Util.stringToNote(data.getStringExtra("test")); // TODO: This needs a meaningful id
+            currentNote = Util.stringToNote(data.getStringExtra("selectedNote")); // TODO: This needs a meaningful id
             current_note_text.setText(currentNote.getNoteString());
         }
     }
