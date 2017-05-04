@@ -37,6 +37,7 @@ public class MainActivity extends AppCompatActivity
     private Button freqButton;
     private ImageButton recordButton;
     private TextView recordArray;       // delete later
+    private TextView desiredNoteText;
     private ImageButton historyViewButton;
     private ImageButton noteSelectViewButton;
     // The octave: C C#(D♭) D D#(E♭) E F F#(G♭) G G#(A♭) A A#(B♭) B
@@ -64,11 +65,17 @@ public class MainActivity extends AppCompatActivity
         passedNote = Note.D;
 
 
+        desiredNoteText = (TextView) findViewById(R.id.desired_note_text);
+
+        // Get Selected Note
+        //passedNote=getIntent().getStringExtra(NoteSelectActivity.SELECTED);
+        //desiredNoteText.setText(passedNote);
+
         // Make user frequency bar accessable
-        userFrequencyBar = (View) findViewById(R.id.user_frequency_bar);
+        //userFrequencyBar = (View) findViewById(R.id.user_frequency_bar);
         // Access frequency bar xml margin parameters
-        final PercentRelativeLayout.LayoutParams layoutParams = (PercentRelativeLayout.LayoutParams) userFrequencyBar.getLayoutParams();
-        final PercentLayoutHelper.PercentLayoutInfo percentLayoutInfo = layoutParams.getPercentLayoutInfo();
+        //final PercentRelativeLayout.LayoutParams layoutParams = (PercentRelativeLayout.LayoutParams) userFrequencyBar.getLayoutParams();
+        //final PercentLayoutHelper.PercentLayoutInfo percentLayoutInfo = layoutParams.getPercentLayoutInfo();
 
 
         // Buttons
@@ -78,7 +85,7 @@ public class MainActivity extends AppCompatActivity
         recordButton = (ImageButton) findViewById(R.id.toggle_button_record);
 
         // shows frequencies in an array on main view (can delete later once data goes into database)
-        recordArray = (TextView) findViewById(R.id.record_array_text);
+        //recordArray = (TextView) findViewById(R.id.record_array_text);
 
         pitchInHz = 0.0;
         freqText = (TextView) findViewById(R.id.freq_text);
@@ -196,8 +203,8 @@ public class MainActivity extends AppCompatActivity
                             frequencyBarPosition = ( ( (passedNote.getMaxFrequency() - adjustedPitchInHz) / screenRange) * 100) * 0.01f;
 
                         // change frequency bar position
-                        percentLayoutInfo.topMarginPercent = (float) frequencyBarPosition;
-                        userFrequencyBar.setLayoutParams(layoutParams);
+                        //percentLayoutInfo.topMarginPercent = (float) frequencyBarPosition;
+                        //userFrequencyBar.setLayoutParams(layoutParams);
                     }
                 });
             }
@@ -233,7 +240,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     /** Called when the user taps the Record Button */
-    public void changeRecordState (View view) {
+    /*public void changeRecordState (View view) {
         ToggleRecord recordtimer = new ToggleRecord();
         boolean on = ((ToggleButton) view).isChecked();
         if (on) {
@@ -241,6 +248,7 @@ public class MainActivity extends AppCompatActivity
             recordArray.setText("Recording...");
             // start recording data from pitchHz and store it into an ArrayList
             recordtimer.start();
+            // Change button image
         }
         else {
             // do this when OFF ...
@@ -255,5 +263,5 @@ public class MainActivity extends AppCompatActivity
             // clear ArrayList (inside ToggleRecord.java)
             recordtimer.clear();
         }
-    }
+    }*/
 }

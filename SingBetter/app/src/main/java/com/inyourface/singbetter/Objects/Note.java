@@ -8,6 +8,7 @@ package com.inyourface.singbetter.Objects;
 
 public enum Note
 {
+	// The octave: C C#(D♭) D D#(E♭) E F F#(G♭) G G#(A♭) A A#(B♭) B
 	A ("A", 440.00, 415.30, 466.16),
 	A_SHARP ("A#", 466.16, 440.00, 493.88),
 	B ("B", 493.88, 466.16, 261.63),
@@ -22,6 +23,10 @@ public enum Note
 	F_SHARP ("F#", 369.99, 349.23, 392.00),
 	G ("G", 392.00, 369.99, 415.30),
 	G_SHARP ("G#", 415.30, 392.00, 440.00);
+
+
+
+
 
 	private String note;
 	private double frequency;
