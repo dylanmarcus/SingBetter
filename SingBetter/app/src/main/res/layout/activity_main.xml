@@ -40,7 +40,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:textSize="50sp"
-        android:text="Main View"  />
+        android:text="Freq Text"  />
 
     <TextView
         android:id="@+id/current_note_text"
@@ -84,24 +84,38 @@
 
         <ImageButton
 
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_centerHorizontal="true"
             android:id="@+id/toggle_button_record"
             android:src="@drawable/record_start_icon"
+            android:scaleX = "1.25"
+            android:scaleY = "1.25"
+            android:scaleType="fitCenter"
             android:background="#ff0000"
             />
         </RelativeLayout>
 
+    <TextView
+        android:id="@+id/desired_note_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/freq_text"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="151dp"
+        android:text="C"
+        android:textSize="50dp"
+        android:textColor="#000" />
 
-    <!-- record pitch in Hz and display as an array -->
+    <!-- record pitch in Hz and display as an array
     <TextView
         android:id="@+id/record_array_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="440dp"
+        android:visibility = "invisible"
         android:text="array"
-        android:textSize="20dp" />
+        android:textSize="20dp" />-->
 
 </RelativeLayout>
