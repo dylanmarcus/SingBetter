@@ -26,7 +26,7 @@ public class NoteSelectActivity extends Activity {
         Intent intent = getIntent();
 
         // ListView Setup
-        String[] notes = {"C", "C#/D♭", "D", "D#/E♭", "E", "F", "F#/G♭", "G", "G#/A♭", "A", "A#/B♭", "B"};
+        String[] notes = {"C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"};
         ListAdapter adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, notes);
         ListView notesListView = (ListView) findViewById(R.id.notes_list);
         notesListView.setAdapter(adapter);
@@ -38,7 +38,7 @@ public class NoteSelectActivity extends Activity {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-            String[] notes = {"C", "C#/D♭", "D", "D#/E♭", "E", "F", "F#/G♭", "G", "G#/A♭", "A", "A#/B♭", "B"};
+            String[] notes = {"C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"};
 
             SELECTED = notes[position];
 
