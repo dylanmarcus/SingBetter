@@ -44,9 +44,10 @@ public class MainActivity extends AppCompatActivity
     private double adjustPitchMinDif;
     double pitchInHz;
     double adjustedPitchInHz;
-    String passedNote = null;
+    Note passedNote;
     private TextView current_note_text;
     private Note currentNote;
+    private double screenRange;
     private View userFrequencyBar;
     private double frequencyBarPosition;
 
@@ -60,6 +61,8 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
 
         currentNote = Note.C_SHARP;
+        passedNote = Note.D;
+
 
         // Make user frequency bar accessable
         userFrequencyBar = (View) findViewById(R.id.user_frequency_bar);
@@ -81,6 +84,7 @@ public class MainActivity extends AppCompatActivity
         freqText = (TextView) findViewById(R.id.freq_text);
         current_note_text = (TextView) findViewById(R.id.current_note_text);
         current_note_text.setText(currentNote.getNoteString());
+
 
         // Take the pitch in Hz and convert it into a note
         // Frequency of a note that is +/- n half steps away
@@ -124,8 +128,12 @@ public class MainActivity extends AppCompatActivity
         hm.put("A#", new Double(466.16));
         hm.put("B", new Double(493.88));
 
+
+
+
         // START Pitch Code to comment/uncomment
-        /*AudioDispatcher dispatcher = AudioDispatcherFactory.fromDefaultMicrophone(22050,1024,0);
+
+        AudioDispatcher dispatcher = AudioDispatcherFactory.fromDefaultMicrophone(22050,1024,0);
         PitchDetectionHandler pdh = new PitchDetectionHandler() {
             @Override
             public void handlePitch(PitchDetectionResult result,AudioEvent e) {
@@ -176,8 +184,16 @@ public class MainActivity extends AppCompatActivity
                         freqText.setText("" + freqString + " Hz ");
                         current_note_text.setText(currentNote.getNoteString());
 
+                        screenRange = passedNote.getMaxFrequency() - passedNote.getMinFrequency();
+
+
                         // calculate percentage value for bar position
-                        frequencyBarPosition = (100 - (pitchInHz / 7885.78) * 100) * 0.01f;
+                        if (adjustedPitchInHz > passedNote.getMaxFrequency())
+                            frequencyBarPosition = 0;
+                        else if (adjustedPitchInHz < passedNote.getMinFrequency())
+                            frequencyBarPosition = 0.99;
+                        else
+                            frequencyBarPosition = ( ( (passedNote.getMaxFrequency() - adjustedPitchInHz) / screenRange) * 100) * 0.01f;
 
                         // change frequency bar position
                         percentLayoutInfo.topMarginPercent = (float) frequencyBarPosition;
@@ -189,10 +205,7 @@ public class MainActivity extends AppCompatActivity
         AudioProcessor p = new PitchProcessor(PitchEstimationAlgorithm.FFT_YIN, 22050, 1024, pdh);
         dispatcher.addAudioProcessor(p);
         Thread t = new Thread(dispatcher,"Audio Dispatcher");
-<<<<<<< HEAD
         t.start();
-=======
-        t.start();*/
 
         // END Pitch Code to comment/uncomment
     }
