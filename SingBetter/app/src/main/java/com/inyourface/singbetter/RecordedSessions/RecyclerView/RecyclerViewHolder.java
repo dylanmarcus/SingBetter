@@ -1,7 +1,6 @@
 package com.inyourface.singbetter.RecordedSessions.RecyclerView;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
@@ -49,7 +48,6 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder implements View.
 		if(SessionsViewActivity.act.getDeleteMode())
 		{
 			SessionsViewActivity.act.insertToBeRemoved(getAdapterPosition());
-			SessionsViewActivity.act.setUndoButton(true);
 		}
 		else
 		{

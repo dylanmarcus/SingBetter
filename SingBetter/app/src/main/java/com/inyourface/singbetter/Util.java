@@ -11,6 +11,9 @@ import java.util.Random;
 
 /**
  * Created by Justin on 4/13/2017.
+ *
+ * A collection of functions to assist with
+ * application functionality.
  */
 
 public class Util

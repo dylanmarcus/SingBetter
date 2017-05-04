@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity
     private ImageButton recordButton;
     private TextView recordArray;       // delete later
     private TextView desiredNoteText;
+    private TextView current_note_text;
     private ImageButton historyViewButton;
     private ImageButton noteSelectViewButton;
     // The octave: C C#(D♭) D D#(E♭) E F F#(G♭) G G#(A♭) A A#(B♭) B
@@ -46,7 +47,6 @@ public class MainActivity extends AppCompatActivity
     double pitchInHz;
     double adjustedPitchInHz;
     Note passedNote;
-    private TextView current_note_text;
     private Note currentNote;
     private double screenRange;
     private View userFrequencyBar;
@@ -57,7 +57,8 @@ public class MainActivity extends AppCompatActivity
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -118,6 +119,8 @@ public class MainActivity extends AppCompatActivity
         Asharp - 466.16
         B4 - 493.88
         */
+ /*
+
         // Construct the hash map
         hm = new HashMap();
 
@@ -215,26 +218,30 @@ public class MainActivity extends AppCompatActivity
         t.start();
 
         // END Pitch Code to comment/uncomment
+
+        */
     }
+
     /** Called when the user taps the History button */
     public void goToHistoryView(View view) {
 		Intent intent = new Intent(MainActivity.this, SessionsViewActivity.class);
+        intent.putExtra("currentNote", currentNote.getNoteString()); // TODO: Constant ID
 		startActivity(intent);
     }
 
     /** Called when the user taps the Note Select button */
     public void goToNoteSelectActivity(View view) {
         Intent intent = new Intent(this, NoteSelectActivity.class);
-        int requestCode = 1; // This should be a constant defined somewhere, eg NOTE_SELECT_REQUEST_CODE
+        int requestCode = 1; // TODO: Constant for meaningful request code
         startActivityForResult(intent, requestCode);
     }
 
-    // Called when a startActivityForResult is finished. Request codes need to be checked (if we have more than 1 startActivityForResult).
+    // Called when a startActivityForResult is finished. Request codes MUST be checked to ensure you're getting the right data.
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
     {
-        if(resultCode == RESULT_OK)
+        if(resultCode == RESULT_OK) // TODO: Check request code
         {
-            currentNote = Util.stringToNote(data.getStringExtra("selectedNote")); // TODO: This needs a meaningful id
+            currentNote = Util.stringToNote(data.getStringExtra("selectedNote")); // TODO: Constant ID
             current_note_text.setText(currentNote.getNoteString());
         }
     }
