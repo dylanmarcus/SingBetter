@@ -104,8 +104,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="151dp"
         android:text="C"
-        android:textSize="50dp"
-        android:textColor="#000" />
+        android:textSize="50dp" />
 
     <!-- record pitch in Hz and display as an array
     <TextView

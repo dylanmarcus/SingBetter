@@ -169,18 +169,18 @@ public class MainActivity extends AppCompatActivity
 
                         // calculate percentage value for bar position
                         // EDGE BAR POSITIONS DO NOT WORK CORRECTLY FOR B AND C
-					/*
+
                         if (adjustedPitchInHz > selectedNote.getMaxFrequency())
                             frequencyBarPosition = 0;
                         else if (adjustedPitchInHz < selectedNote.getMinFrequency())
                             frequencyBarPosition = 0.99;
-                    */
-                        //else
-                        frequencyBarPosition = ( ( (selectedNote.getMaxFrequency() - adjustedPitchInHz) / screenRange) * 100) * 0.01f;
-                    /*
+
+                        else
+                            frequencyBarPosition = ( ( (selectedNote.getMaxFrequency() - adjustedPitchInHz) / screenRange) * 100) * 0.01f;
+
                         if (pitchInHz == -1)
                             frequencyBarPosition = 2;
-                    */
+
 
                         // change frequency bar position
                         percentLayoutInfo.topMarginPercent = (float) frequencyBarPosition;
