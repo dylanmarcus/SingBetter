@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity
     private Button freqButton;
     private ImageButton recordButton;
     private TextView recordArray;       // delete later
-    private TextView desiredNoteText;
+    private TextView selectedNoteText;
     private ImageButton historyViewButton;
     private ImageButton noteSelectViewButton;
     // The octave: C C#(D♭) D D#(E♭) E F F#(G♭) G G#(A♭) A A#(B♭) B
@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity
     private double adjustPitchMinDif;
     double pitchInHz;
     double adjustedPitchInHz;
-    Note passedNote;
+    private Note selectedNote;
     private TextView current_note_text;
     private Note currentNote;
     private double screenRange;
@@ -61,21 +61,22 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        currentNote = Note.C_SHARP;
-        passedNote = Note.D;
+        selectedNote = Note.D;
+        currentNote = Note.D;
 
 
-        desiredNoteText = (TextView) findViewById(R.id.desired_note_text);
+        selectedNoteText = (TextView) findViewById(R.id.selected_note_text);
+        selectedNoteText.setText(selectedNote.getNoteString());
 
         // Get Selected Note
         //passedNote=getIntent().getStringExtra(NoteSelectActivity.SELECTED);
         //desiredNoteText.setText(passedNote);
 
         // Make user frequency bar accessable
-        //userFrequencyBar = (View) findViewById(R.id.user_frequency_bar);
+        userFrequencyBar = (View) findViewById(R.id.user_frequency_bar);
         // Access frequency bar xml margin parameters
-        //final PercentRelativeLayout.LayoutParams layoutParams = (PercentRelativeLayout.LayoutParams) userFrequencyBar.getLayoutParams();
-        //final PercentLayoutHelper.PercentLayoutInfo percentLayoutInfo = layoutParams.getPercentLayoutInfo();
+        final PercentRelativeLayout.LayoutParams layoutParams = (PercentRelativeLayout.LayoutParams) userFrequencyBar.getLayoutParams();
+        final PercentLayoutHelper.PercentLayoutInfo percentLayoutInfo = layoutParams.getPercentLayoutInfo();
 
 
         // Buttons
@@ -191,20 +192,20 @@ public class MainActivity extends AppCompatActivity
                         freqText.setText("" + freqString + " Hz ");
                         current_note_text.setText(currentNote.getNoteString());
 
-                        screenRange = passedNote.getMaxFrequency() - passedNote.getMinFrequency();
+                        screenRange = selectedNote.getMaxFrequency() - selectedNote.getMinFrequency();
 
 
                         // calculate percentage value for bar position
-                        if (adjustedPitchInHz > passedNote.getMaxFrequency())
+                        if (adjustedPitchInHz > selectedNote.getMaxFrequency())
                             frequencyBarPosition = 0;
-                        else if (adjustedPitchInHz < passedNote.getMinFrequency())
+                        else if (adjustedPitchInHz < selectedNote.getMinFrequency())
                             frequencyBarPosition = 0.99;
                         else
-                            frequencyBarPosition = ( ( (passedNote.getMaxFrequency() - adjustedPitchInHz) / screenRange) * 100) * 0.01f;
+                            frequencyBarPosition = ( ( (selectedNote.getMaxFrequency() - adjustedPitchInHz) / screenRange) * 100) * 0.01f;
 
                         // change frequency bar position
-                        //percentLayoutInfo.topMarginPercent = (float) frequencyBarPosition;
-                        //userFrequencyBar.setLayoutParams(layoutParams);
+                        percentLayoutInfo.topMarginPercent = (float) frequencyBarPosition;
+                        userFrequencyBar.setLayoutParams(layoutParams);
                     }
                 });
             }
@@ -234,8 +235,8 @@ public class MainActivity extends AppCompatActivity
     {
         if(resultCode == RESULT_OK)
         {
-            currentNote = Util.stringToNote(data.getStringExtra("selectedNote")); // TODO: This needs a meaningful id
-            current_note_text.setText(currentNote.getNoteString());
+            selectedNote = Util.stringToNote(data.getStringExtra("selectedNote")); // TODO: This needs a meaningful id
+            selectedNoteText.setText(selectedNote.getNoteString());
         }
     }
 
