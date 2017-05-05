@@ -114,8 +114,6 @@ public class MainActivity extends AppCompatActivity
         B4 - 493.88
         */
 
-        /*
-
         // START Pitch Code to comment/uncomment
 
         AudioDispatcher dispatcher = AudioDispatcherFactory.fromDefaultMicrophone(22050,1024,0);
@@ -170,16 +168,19 @@ public class MainActivity extends AppCompatActivity
 
 
                         // calculate percentage value for bar position
-                        /* EDGE BAR POSITIONS DO NOT WORK CORRECTLY FOR B AND C
+                        // EDGE BAR POSITIONS DO NOT WORK CORRECTLY FOR B AND C
+					/*
                         if (adjustedPitchInHz > selectedNote.getMaxFrequency())
                             frequencyBarPosition = 0;
                         else if (adjustedPitchInHz < selectedNote.getMinFrequency())
-                            frequencyBarPosition = 0.99;*/
+                            frequencyBarPosition = 0.99;
+                    */
                         //else
                         frequencyBarPosition = ( ( (selectedNote.getMaxFrequency() - adjustedPitchInHz) / screenRange) * 100) * 0.01f;
-                        /*
+                    /*
                         if (pitchInHz == -1)
                             frequencyBarPosition = 2;
+                    */
 
                         // change frequency bar position
                         percentLayoutInfo.topMarginPercent = (float) frequencyBarPosition;
@@ -194,8 +195,6 @@ public class MainActivity extends AppCompatActivity
         t.start();
 
         // END Pitch Code to comment/uncomment
-
-        */
     }
 
     /** Called when the user taps the History button */
