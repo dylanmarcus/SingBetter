@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.inyourface.singbetter.Objects.Note;
 import com.inyourface.singbetter.R;
 import com.inyourface.singbetter.Objects.Session;
+import com.inyourface.singbetter.RecordedSessions.ItemView.ItemActivity;
 import com.inyourface.singbetter.RecordedSessions.RecyclerView.RecyclerViewAdapter;
 import com.inyourface.singbetter.Util;
 import com.inyourface.singbetter.db.SessionDAL;
@@ -22,7 +23,7 @@ import java.util.ArrayList;
 
 /**
  * Created by Justin on 4/6/2017.
- *
+ * <p>
  * TODO: Add a description here?
  */
 
@@ -49,9 +50,6 @@ public class SessionsViewActivity extends AppCompatActivity
 
 	private SessionDAL db;
 
-	// TODO: Fix. Android studio says the below variable is bad.
-	public static SessionsViewActivity act;
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -65,9 +63,6 @@ public class SessionsViewActivity extends AppCompatActivity
 		{
 			currentNote = Note.C_SHARP;
 		}
-
-		// Singleton? I probably did this wrong.
-		act = this;
 
 		// Establish a database connection
 		db = new SessionDAL(this);
@@ -92,7 +87,7 @@ public class SessionsViewActivity extends AppCompatActivity
 		// The loop below just generates mostly random data.
 		for(int i = 0; i < 50; i++)
 		{
-			//db.insertSession(Util.generateSession());
+			db.insertSession(Util.generateSession());
 		}
 
 		// Setup the recyclerview
@@ -102,6 +97,33 @@ public class SessionsViewActivity extends AppCompatActivity
 		sessionsRecycler.setLayoutManager(sessionsLayoutManager);
 		adapter = new RecyclerViewAdapter(displayedSessions);
 		sessionsRecycler.setAdapter(adapter);
+
+		adapter.setListener(new RecyclerViewAdapter.onItemSelectedListener()
+		{
+			@Override
+			public void onItemSelected(int pos)
+			{
+				// We get a value of -1 if a click is received in empty space (possible during spam click of item deletion)
+				if(pos == -1)
+				{
+					return;
+				}
+
+				if(deleteMode)
+				{
+					deleteUndoButton.setEnabled(true);
+					toBeRemoved.add(displayedSessions.get(pos));
+					displayedSessions.remove(pos);
+					adapter.notifyItemRemoved(pos);
+				}
+				else
+				{
+					Intent intent = new Intent(SessionsViewActivity.this, ItemActivity.class);
+					intent.putExtra("clickPosition", pos);
+					startActivity(intent);
+				}
+			}
+		});
 
 		// This adds the diving lines between each item in the recycler view
 		DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(sessionsRecycler.getContext(), sessionsLayoutManager.getOrientation());
@@ -238,16 +260,6 @@ public class SessionsViewActivity extends AppCompatActivity
 		db.close();
 	}
 
-	// toBeRemoved contains sessions that will be permanently deleted on clicking "finish."
-	// These sessions are removed from the display but can be "undone" before finishing.
-	public void insertToBeRemoved(int pos)
-	{
-		deleteUndoButton.setEnabled(true);
-		toBeRemoved.add(displayedSessions.get(pos));
-		displayedSessions.remove(pos);
-		adapter.notifyItemRemoved(pos);
-	}
-
 	private void setDeleteMode(boolean value)
 	{
 		if(deleteMode != value)
@@ -255,12 +267,6 @@ public class SessionsViewActivity extends AppCompatActivity
 			deleteMode = value;
 			deleteModeChanged();
 		}
-	}
-
-	// Used by the recycler view holder to determine if a click on an item results in a delete or viewing item information.
-	public boolean getDeleteMode()
-	{
-		return deleteMode;
 	}
 
 	// Handles the changing of button states when changing delete modes.
