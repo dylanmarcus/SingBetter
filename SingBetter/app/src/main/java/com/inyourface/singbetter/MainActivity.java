@@ -54,7 +54,8 @@ public class MainActivity extends AppCompatActivity
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -113,7 +114,6 @@ public class MainActivity extends AppCompatActivity
         B4 - 493.88
         */
 
-
         // START Pitch Code to comment/uncomment
 
         AudioDispatcher dispatcher = AudioDispatcherFactory.fromDefaultMicrophone(22050,1024,0);
@@ -168,16 +168,19 @@ public class MainActivity extends AppCompatActivity
 
 
                         // calculate percentage value for bar position
-                        /* EDGE BAR POSITIONS DO NOT WORK CORRECTLY FOR B AND C
+                        // EDGE BAR POSITIONS DO NOT WORK CORRECTLY FOR B AND C
+					/*
                         if (adjustedPitchInHz > selectedNote.getMaxFrequency())
                             frequencyBarPosition = 0;
                         else if (adjustedPitchInHz < selectedNote.getMinFrequency())
-                            frequencyBarPosition = 0.99;*/
+                            frequencyBarPosition = 0.99;
+                    */
                         //else
                         frequencyBarPosition = ( ( (selectedNote.getMaxFrequency() - adjustedPitchInHz) / screenRange) * 100) * 0.01f;
-                        /*
+                    /*
                         if (pitchInHz == -1)
-                            frequencyBarPosition = 2;*/
+                            frequencyBarPosition = 2;
+                    */
 
                         // change frequency bar position
                         percentLayoutInfo.topMarginPercent = (float) frequencyBarPosition;
@@ -193,23 +196,25 @@ public class MainActivity extends AppCompatActivity
 
         // END Pitch Code to comment/uncomment
     }
+
     /** Called when the user taps the History button */
     public void goToHistoryView(View view) {
 		Intent intent = new Intent(MainActivity.this, SessionsViewActivity.class);
+        intent.putExtra("currentNote", currentNote.getNoteString()); // TODO: Constant ID
 		startActivity(intent);
     }
 
     /** Called when the user taps the Note Select button */
     public void goToNoteSelectActivity(View view) {
         Intent intent = new Intent(this, NoteSelectActivity.class);
-        int requestCode = 1; // This should be a constant defined somewhere, eg NOTE_SELECT_REQUEST_CODE
+        int requestCode = 1; // TODO: Constant for meaningful request code
         startActivityForResult(intent, requestCode);
     }
 
-    // Called when a startActivityForResult is finished. Request codes need to be checked (if we have more than 1 startActivityForResult).
+    // Called when a startActivityForResult is finished. Request codes MUST be checked to ensure you're getting the right data.
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
     {
-        if(resultCode == RESULT_OK)
+        if(resultCode == RESULT_OK) // TODO: Check request code
         {
             selectedNote = Util.stringToNote(data.getStringExtra("selectedNote")); // TODO: This needs a meaningful id
             selectedNoteText.setText(selectedNote.getNoteString());

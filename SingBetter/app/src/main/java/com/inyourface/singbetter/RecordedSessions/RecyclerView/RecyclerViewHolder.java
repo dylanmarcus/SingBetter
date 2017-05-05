@@ -1,7 +1,6 @@
 package com.inyourface.singbetter.RecordedSessions.RecyclerView;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
@@ -18,6 +17,8 @@ import com.inyourface.singbetter.Util;
 
 public class RecyclerViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
 {
+	private onItemClickedListener listener;
+
 	public TextView sessionCustomNameTextView;
 	public TextView sessionDateCreatedTextView;
 
@@ -40,23 +41,16 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder implements View.
 	@Override
 	public void onClick(View v)
 	{
-		// We get a value of -1 if a click is received in empty space (possible during spam click of item deletion)
-		if(getAdapterPosition() == -1)
-		{
-			return;
-		}
+		listener.onItemClicked(getAdapterPosition());
+	}
 
-		if(SessionsViewActivity.act.getDeleteMode())
-		{
-			SessionsViewActivity.act.insertToBeRemoved(getAdapterPosition());
-			SessionsViewActivity.act.setUndoButton(true);
-		}
-		else
-		{
-			Intent intent = new Intent(SessionsViewActivity.act, ItemActivity.class);
-			int pos = getAdapterPosition();
-			intent.putExtra("clickPosition", pos);
-			SessionsViewActivity.act.startActivity(intent);
-		}
+	public void setListener(onItemClickedListener listener)
+	{
+		this.listener = listener;
+	}
+
+	public interface onItemClickedListener
+	{
+		void onItemClicked(int position);
 	}
 }

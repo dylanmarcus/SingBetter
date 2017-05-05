@@ -16,6 +16,8 @@ import java.util.ArrayList;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder>
 {
+	private onItemSelectedListener listener;
+
 	public static ArrayList<Session> bindableCollection;
 
 	public RecyclerViewAdapter(ArrayList<Session> collection)
@@ -36,6 +38,15 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder
 	{
 		Session session = bindableCollection.get(position);
 		holder.bindView(session);
+
+		holder.setListener(new RecyclerViewHolder.onItemClickedListener()
+		{
+			@Override
+			public void onItemClicked(int position)
+			{
+				listener.onItemSelected(position);
+			}
+		});
 	}
 
 	@Override
@@ -47,5 +58,15 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder
 	public static Session getSession(int pos)
 	{
 		return bindableCollection.get(pos);
+	}
+
+	public void setListener(onItemSelectedListener listener)
+	{
+		this.listener = listener;
+	}
+
+	public interface onItemSelectedListener
+	{
+		void onItemSelected(int pos);
 	}
 }

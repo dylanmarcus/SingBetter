@@ -11,6 +11,9 @@ import java.util.Random;
 
 /**
  * Created by Justin on 4/13/2017.
+ *
+ * A collection of functions to assist with
+ * application functionality.
  */
 
 public class Util
@@ -121,6 +124,37 @@ public class Util
 		}
 
 		return stringNotes;
+	}
+
+	public static String[] getAdjacentNotes(Note note)
+	{
+		String[] notes = new String[3];
+
+		Note note1 = noteToLeftOf(note);
+		Note note2 = note;
+		Note note3 = noteToRightOf(note);
+
+		if(note1 == null)
+		{
+			notes[0] = "";
+		}
+		else
+		{
+			notes[0] = note1.getNoteString();
+		}
+
+		if(note3 == null)
+		{
+			notes[2] = "";
+		}
+		else
+		{
+			notes[2] = note3.getNoteString();
+		}
+
+		notes[1] = note2.getNoteString();
+
+		return notes;
 	}
 
 

@@ -1,5 +1,6 @@
 package com.inyourface.singbetter.RecordedSessions;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 import com.inyourface.singbetter.Objects.Note;
 import com.inyourface.singbetter.R;
 import com.inyourface.singbetter.Objects.Session;
+import com.inyourface.singbetter.RecordedSessions.ItemView.ItemActivity;
 import com.inyourface.singbetter.RecordedSessions.RecyclerView.RecyclerViewAdapter;
 import com.inyourface.singbetter.Util;
 import com.inyourface.singbetter.db.SessionDAL;
@@ -21,6 +23,8 @@ import java.util.ArrayList;
 
 /**
  * Created by Justin on 4/6/2017.
+ * <p>
+ * TODO: Add a description here?
  */
 
 public class SessionsViewActivity extends AppCompatActivity
@@ -46,23 +50,29 @@ public class SessionsViewActivity extends AppCompatActivity
 
 	private SessionDAL db;
 
-	public static SessionsViewActivity act;
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_sessions_view);
 
-		act = this;
+		// Set the current note to what the selected note.
+		Intent intent = getIntent();
+		currentNote = Util.stringToNote(intent.getStringExtra("currentNote")); // TODO: Constant ID
+		if(currentNote == null)
+		{
+			currentNote = Note.C_SHARP;
+		}
 
+		// Establish a database connection
 		db = new SessionDAL(this);
 		db.open();
 
+		// Setup for delete mode
 		deleteMode = false;
 		toBeRemoved = new ArrayList<Session>();
 
-		currentNote = Note.C_SHARP;
+		// Set our buttons
 		currentNoteTextView = (TextView) findViewById(R.id.sessions_current_note);
 
 		leftButton = (ImageButton) findViewById(R.id.sessions_note_left);
@@ -73,19 +83,14 @@ public class SessionsViewActivity extends AppCompatActivity
 		deleteUndoButton = (ImageButton) findViewById(R.id.session_delete_undo);
 		deleteFinishButton = (Button) findViewById(R.id.session_delete_finish);
 
-		/**
-		 * Database interactions should be performed on a background thread, no matter
-		 * what kind of query they are.
-		 * TODO: Thread DB stuff (good practice even if not necessary?)
-		 */
-
+		// TODO: Delete loop below before final product.
 		// The loop below just generates mostly random data.
 		for(int i = 0; i < 50; i++)
 		{
 			db.insertSession(Util.generateSession());
 		}
 
-		// This sets up the recycler view
+		// Setup the recyclerview
 		displayedSessions = db.getSessionsWithNote(currentNote);
 		sessionsRecycler = (RecyclerView) findViewById(R.id.sessions_recycler);
 		sessionsLayoutManager = new LinearLayoutManager(getBaseContext());
@@ -93,11 +98,48 @@ public class SessionsViewActivity extends AppCompatActivity
 		adapter = new RecyclerViewAdapter(displayedSessions);
 		sessionsRecycler.setAdapter(adapter);
 
+		adapter.setListener(new RecyclerViewAdapter.onItemSelectedListener()
+		{
+			@Override
+			public void onItemSelected(int pos)
+			{
+				// We get a value of -1 if a click is received in empty space (possible during spam click of item deletion)
+				if(pos == -1)
+				{
+					return;
+				}
+
+				if(deleteMode)
+				{
+					deleteUndoButton.setEnabled(true);
+					toBeRemoved.add(displayedSessions.get(pos));
+					displayedSessions.remove(pos);
+					adapter.notifyItemRemoved(pos);
+				}
+				else
+				{
+					Intent intent = new Intent(SessionsViewActivity.this, ItemActivity.class);
+					intent.putExtra("clickPosition", pos);
+					startActivity(intent);
+				}
+			}
+		});
+
 		// This adds the diving lines between each item in the recycler view
 		DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(sessionsRecycler.getContext(), sessionsLayoutManager.getOrientation());
 		sessionsRecycler.addItemDecoration(dividerItemDecoration);
 
-		// TODO: These switch methods presumes we can move either direction AT LEAST ONCE on activity startup. IT WILL BREAK OTHERWISE. This behavior should be fixed.
+		// Check if we are already at one extreme of the allowed notes
+		if(Util.noteToLeftOf(currentNote) == null)
+		{
+			leftButton.setEnabled(false);
+		}
+		if(Util.noteToRightOf(currentNote) == null)
+		{
+			rightButton.setEnabled(false);
+		}
+
+
 		leftButton.setOnClickListener(new View.OnClickListener()
 		{
 			@Override
@@ -150,6 +192,7 @@ public class SessionsViewActivity extends AppCompatActivity
 			}
 		});
 
+		// This button enables delete mode by calling our helper function setDeleteMode.
 		enterDeleteModeButton.setOnClickListener(new View.OnClickListener()
 		{
 			@Override
@@ -159,6 +202,7 @@ public class SessionsViewActivity extends AppCompatActivity
 			}
 		});
 
+		// Moves items from toBeRemoved back into displaySessions and turns off delete mode.
 		deleteCancelButton.setOnClickListener(new View.OnClickListener()
 		{
 			@Override
@@ -174,6 +218,7 @@ public class SessionsViewActivity extends AppCompatActivity
 			}
 		});
 
+		// Moves the most recently added item of toBeRemoved back into displayedSessions.
 		deleteUndoButton.setOnClickListener(new View.OnClickListener()
 		{
 			@Override
@@ -190,6 +235,7 @@ public class SessionsViewActivity extends AppCompatActivity
 			}
 		});
 
+		// Deletes all items in toBeRemoved from the database. Exits delete mode.
 		deleteFinishButton.setOnClickListener(new View.OnClickListener()
 		{
 			@Override
@@ -205,70 +251,59 @@ public class SessionsViewActivity extends AppCompatActivity
 		});
 	}
 
+	// Override this so we can close the database connection when we exit this activity.
 	@Override
 	protected void onDestroy()
 	{
 		super.onDestroy();
 
-		// Close the database when we leave this activity.
 		db.close();
-	}
-
-	public void setUndoButton(boolean value)
-	{
-		deleteUndoButton.setEnabled(value);
-	}
-
-	public void insertToBeRemoved(int pos)
-	{
-		toBeRemoved.add(displayedSessions.get(pos));
-		displayedSessions.remove(pos);
-		adapter.notifyItemRemoved(pos);
 	}
 
 	private void setDeleteMode(boolean value)
 	{
-		if(deleteMode == value)
-		{
-			return;
-		}
-		else
+		if(deleteMode != value)
 		{
 			deleteMode = value;
 			deleteModeChanged();
 		}
 	}
 
-	public boolean getDeleteMode()
-	{
-		return deleteMode;
-	}
-
+	// Handles the changing of button states when changing delete modes.
 	private void deleteModeChanged()
 	{
 		if(deleteMode)
 		{
+			// Disable the note switching buttons and hide them
 			leftButton.setEnabled(false);
 			rightButton.setEnabled(false);
 			leftButton.setVisibility(View.INVISIBLE);
 			rightButton.setVisibility(View.INVISIBLE);
+
+			// Disable and hide the "enter delete mode" button
 			enterDeleteModeButton.setEnabled(false);
 			enterDeleteModeButton.setVisibility(View.INVISIBLE);
+
+			// Enable and show the cancel, undo (not getting enabled), and finish buttons
 			deleteCancelButton.setEnabled(true);
 			deleteCancelButton.setVisibility(View.VISIBLE);
-			//deleteUndoButton.setEnabled(true);
 			deleteUndoButton.setVisibility(View.VISIBLE);
 			deleteFinishButton.setEnabled(true);
 			deleteFinishButton.setVisibility(View.VISIBLE);
 		}
 		else
 		{
+			// Re-enable and show note-switching buttons
 			leftButton.setEnabled(true);
 			rightButton.setEnabled(true);
 			leftButton.setVisibility(View.VISIBLE);
 			rightButton.setVisibility(View.VISIBLE);
+
+			// Re-enable and show the "enter delete mode" button
 			enterDeleteModeButton.setEnabled(true);
 			enterDeleteModeButton.setVisibility(View.VISIBLE);
+
+			// Disable and hide the cancel, undo, and finish buttons
 			deleteCancelButton.setEnabled(false);
 			deleteCancelButton.setVisibility(View.INVISIBLE);
 			deleteUndoButton.setEnabled(false);
