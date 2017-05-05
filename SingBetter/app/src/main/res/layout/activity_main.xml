@@ -97,7 +97,7 @@
         </RelativeLayout>
 
     <TextView
-        android:id="@+id/desired_note_text"
+        android:id="@+id/selected_note_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/freq_text"
