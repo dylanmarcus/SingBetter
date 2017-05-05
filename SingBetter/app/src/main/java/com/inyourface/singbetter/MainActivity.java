@@ -41,7 +41,6 @@ public class MainActivity extends AppCompatActivity
     private ImageButton historyViewButton;
     private ImageButton noteSelectViewButton;
     // The octave: C C#(D♭) D D#(E♭) E F F#(G♭) G G#(A♭) A A#(B♭) B
-    // private enum Note {A, Asharp, B, C, Csharp, D, Dsharp, E, F, Fsharp, G, Gsharp};
     private double adjustPitchMinDif;
     double pitchInHz;
     double adjustedPitchInHz;
@@ -52,8 +51,6 @@ public class MainActivity extends AppCompatActivity
     private View userFrequencyBar;
     private double frequencyBarPosition;
 
-    // Create a hash map
-    HashMap hm;
 
 
     @Override
@@ -67,10 +64,6 @@ public class MainActivity extends AppCompatActivity
 
         selectedNoteText = (TextView) findViewById(R.id.selected_note_text);
         selectedNoteText.setText(selectedNote.getNoteString());
-
-        // Get Selected Note
-        //passedNote=getIntent().getStringExtra(NoteSelectActivity.SELECTED);
-        //desiredNoteText.setText(passedNote);
 
         // Make user frequency bar accessable
         userFrequencyBar = (View) findViewById(R.id.user_frequency_bar);
@@ -119,24 +112,6 @@ public class MainActivity extends AppCompatActivity
         Asharp - 466.16
         B4 - 493.88
         */
-        // Construct the hash map
-        hm = new HashMap();
-
-        // Put values into the map
-        hm.put("C", new Double(261.63));
-        hm.put("C#", new Double(277.18));
-        hm.put("D", new Double(293.66));
-        hm.put("D#", new Double(311.13));
-        hm.put("E", new Double(329.63));
-        hm.put("F", new Double(349.23));
-        hm.put("F#", new Double(369.99));
-        hm.put("G", new Double(392.00));
-        hm.put("G#", new Double(415.30));
-        hm.put("A", new Double(440.00));
-        hm.put("A#", new Double(466.16));
-        hm.put("B", new Double(493.88));
-
-
 
 
         // START Pitch Code to comment/uncomment
@@ -169,25 +144,22 @@ public class MainActivity extends AppCompatActivity
                         if(adjustedPitchInHz > (493.88+(523.25-493.88)/2.0))
                             adjustedPitchInHz = adjustedPitchInHz / 2;
 
+
                         // When adjusted pitch is within octave 4, set a variable to measure the difference
                         // between the adjusted frequency and each cutoff frequency. Whichever is the smallest,
                         // that is the current note
 
-                        // Get a set of the entries
-                        Set set = hm.entrySet();
 
-                        // Get an iterator
-                        Iterator i = set.iterator();
+                        Note[] notes = Note.values();
 
-                        while(i.hasNext()) {
-                            Map.Entry me = (Map.Entry)i.next();
-                            double currentDif = Math.abs((double)me.getValue() - adjustedPitchInHz);
-                            if(currentDif < adjustPitchMinDif)
-                            {
+                        for (int i = 0; i < notes.length; i++) {
+                            double currentDif = Math.abs((double) notes[i].getNoteFrequency() - adjustedPitchInHz);
+                            if (currentDif < adjustPitchMinDif) {
                                 adjustPitchMinDif = currentDif;
-                                currentNote = Util.stringToNote(me.getKey().toString());
+                                currentNote = notes[i];
                             }
                         }
+
                         String freqString = String.format("%.2f", pitchInHz);
                         freqText.setText("" + freqString + " Hz ");
                         current_note_text.setText(currentNote.getNoteString());
@@ -196,12 +168,16 @@ public class MainActivity extends AppCompatActivity
 
 
                         // calculate percentage value for bar position
+                        /* EDGE BAR POSITIONS DO NOT WORK CORRECTLY FOR B AND C
                         if (adjustedPitchInHz > selectedNote.getMaxFrequency())
                             frequencyBarPosition = 0;
                         else if (adjustedPitchInHz < selectedNote.getMinFrequency())
-                            frequencyBarPosition = 0.99;
-                        else
-                            frequencyBarPosition = ( ( (selectedNote.getMaxFrequency() - adjustedPitchInHz) / screenRange) * 100) * 0.01f;
+                            frequencyBarPosition = 0.99;*/
+                        //else
+                        frequencyBarPosition = ( ( (selectedNote.getMaxFrequency() - adjustedPitchInHz) / screenRange) * 100) * 0.01f;
+                        /*
+                        if (pitchInHz == -1)
+                            frequencyBarPosition = 2;*/
 
                         // change frequency bar position
                         percentLayoutInfo.topMarginPercent = (float) frequencyBarPosition;
