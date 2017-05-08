@@ -64,7 +64,6 @@
             android:layout_height="80dp"
             android:scaleType="fitCenter"
             android:layout_alignParentEnd="true"
-            android:onClick="goToHistoryView"
             android:src="@drawable/history_icon"
             android:background="#00ffffff"/>
 
@@ -75,8 +74,7 @@
             android:layout_height="60dp"
             android:src="@drawable/music_note_icon"
             android:background="#00ffffff"
-            android:scaleType="fitCenter"
-            android:onClick="goToNoteSelectActivity" />
+            android:scaleType="fitCenter"/>
 
         <!-- record button -->
         <!--android:background="#00ffffff"-->
