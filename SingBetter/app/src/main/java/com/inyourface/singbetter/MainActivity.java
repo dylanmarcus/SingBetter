@@ -11,10 +11,12 @@ import android.widget.Button;
 import android.widget.ToggleButton;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import java.util.Calendar;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -28,7 +30,9 @@ import be.tarsos.dsp.pitch.PitchProcessor;
 import be.tarsos.dsp.pitch.PitchProcessor.PitchEstimationAlgorithm;
 
 import com.inyourface.singbetter.Objects.Note;
+import com.inyourface.singbetter.Objects.Session;
 import com.inyourface.singbetter.RecordedSessions.SessionsViewActivity;
+import com.inyourface.singbetter.db.SessionDAL;
 
 
 public class MainActivity extends AppCompatActivity
@@ -50,6 +54,11 @@ public class MainActivity extends AppCompatActivity
     private double screenRange;
     private View userFrequencyBar;
     private double frequencyBarPosition;
+    private boolean isRecording;
+    private Calendar calendar = Calendar.getInstance();
+    private long timeStartedRecording;
+    private ArrayList<Integer> scoreList;
+    private SessionDAL db;
 
 
 
@@ -61,7 +70,12 @@ public class MainActivity extends AppCompatActivity
 
         selectedNote = Note.D;
         currentNote = Note.D;
+        timeStartedRecording = 0;
+        scoreList = new ArrayList<Integer>();
+        db = new SessionDAL(this);
 
+
+        isRecording = false;
 
         selectedNoteText = (TextView) findViewById(R.id.selected_note_text);
         selectedNoteText.setText(selectedNote.getNoteString());
@@ -76,7 +90,6 @@ public class MainActivity extends AppCompatActivity
         // Buttons
         historyViewButton = (ImageButton) findViewById(R.id.history_view_button);
         noteSelectViewButton = (ImageButton) findViewById(R.id.note_select_view_button);
-
         recordButton = (ImageButton) findViewById(R.id.toggle_button_record);
 
         // shows frequencies in an array on main view (can delete later once data goes into database)
@@ -185,6 +198,12 @@ public class MainActivity extends AppCompatActivity
                         // change frequency bar position
                         percentLayoutInfo.topMarginPercent = (float) frequencyBarPosition;
                         userFrequencyBar.setLayoutParams(layoutParams);
+
+                        // If we are recording, get the frequency bar position every 0.1s
+                        if(isRecording) {
+                            if((calendar.getTimeInMillis() - timeStartedRecording)%100==0)
+                                scoreList.add((int)(frequencyBarPosition*20.0-10.0));
+                        }
                     }
                 });
             }
@@ -195,6 +214,46 @@ public class MainActivity extends AppCompatActivity
         t.start();
 
         // END Pitch Code to comment/uncomment
+    }
+
+    /** Called when the user taps the History button */
+    public void toggleRecordBtn(View view) {
+        if(isRecording) {
+            // We have stopped recording
+            isRecording = false;
+
+            // Update the record button image to the record start icon
+            recordButton.setImageResource(R.drawable.record_start_icon);
+
+            // Establish a database connection
+
+            db.open();
+
+            // Create a new session
+            Session session = new Session();
+            session.setNote(selectedNote);
+            session.setData(scoreList);
+            session.setDateCreated(calendar.getTimeInMillis());
+            session.setAssociatedMP3("/bin/SongName.mp3");
+            session.setCustomName("Song Name");
+
+            // Create a db entry in the current note
+            db.insertSession(session);
+            //db.insertSession(Util.generateSession());
+            db.close();
+
+            scoreList.clear();
+        }
+        else {
+            // We have started recording
+            isRecording = true;
+
+            // Update the record button image to the record stop icon
+            recordButton.setImageResource(R.drawable.record_stop_icon);
+
+            // Initialize the time when we started recording
+            timeStartedRecording = calendar.getTimeInMillis();
+        }
     }
 
     /** Called when the user taps the History button */

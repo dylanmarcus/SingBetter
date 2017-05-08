@@ -18,6 +18,7 @@ public class Session implements Serializable
 	private String associatedMP3;
 	private ArrayList<Integer> data;
 
+	//public Session(){}
 
 	public ArrayList<Integer> getData()
 	{
