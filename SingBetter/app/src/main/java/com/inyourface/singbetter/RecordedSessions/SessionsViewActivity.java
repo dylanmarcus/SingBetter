@@ -84,11 +84,12 @@ public class SessionsViewActivity extends AppCompatActivity
 		deleteFinishButton = (Button) findViewById(R.id.session_delete_finish);
 
 		// TODO: Delete loop below before final product.
+
 		// The loop below just generates mostly random data.
-		for(int i = 0; i < 50; i++)
+		/*for(int i = 0; i < 50; i++)
 		{
 			db.insertSession(Util.generateSession());
-		}
+		}*/
 
 		// Setup the recyclerview
 		displayedSessions = db.getSessionsWithNote(currentNote);

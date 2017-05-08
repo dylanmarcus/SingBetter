@@ -35,6 +35,8 @@ public class SessionDAL
 	public SessionDAL(Context context)
 	{
 		dbHelper = new SessionOpenHelper(context);
+		// Uncomment this line to clear the database on app start
+		//dbHelper.onUpgrade(dbHelper.getWritableDatabase(), 0, 1);
 	}
 
 	public void open()
