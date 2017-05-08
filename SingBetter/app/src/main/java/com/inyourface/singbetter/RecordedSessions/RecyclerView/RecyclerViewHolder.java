@@ -1,14 +1,11 @@
 package com.inyourface.singbetter.RecordedSessions.RecyclerView;
 
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
 import com.inyourface.singbetter.R;
-import com.inyourface.singbetter.RecordedSessions.ItemView.ItemActivity;
 import com.inyourface.singbetter.Objects.Session;
-import com.inyourface.singbetter.RecordedSessions.SessionsViewActivity;
 import com.inyourface.singbetter.Util;
 
 /**

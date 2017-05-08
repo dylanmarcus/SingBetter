@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
+import com.inyourface.singbetter.Constants;
 import com.inyourface.singbetter.R;
 import com.inyourface.singbetter.RecordedSessions.RecyclerView.RecyclerViewAdapter;
 import com.inyourface.singbetter.Objects.Session;
@@ -40,7 +41,7 @@ public class ItemActivity extends AppCompatActivity
 		graphView = (GraphView) findViewById(R.id.graph);
 
 		Intent intent = getIntent();
-		int pos = intent.getExtras().getInt("clickPosition"); // TODO: Define this somewhere
+		int pos = intent.getExtras().getInt(Constants.EXTRA_ITEM_VIEW_CLICK_POSITION);
 
 		Session session = RecyclerViewAdapter.getSession(pos);
 
@@ -57,7 +58,7 @@ public class ItemActivity extends AppCompatActivity
 		// 1 second represents INTERVAL data points, so we divide by the INTERVAL
 		for(int i = 0; i < sessionData.size(); i++)
 		{
-			dataPoints[i] = new DataPoint(i / 10, sessionData.get(i)); // TODO: Interval constant
+			dataPoints[i] = new DataPoint(i / Constants.INTERVAL, sessionData.get(i));
 		}
 
 		LineGraphSeries<DataPoint> graphSeries = new LineGraphSeries<>(dataPoints);

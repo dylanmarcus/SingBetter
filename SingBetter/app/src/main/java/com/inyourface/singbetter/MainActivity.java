@@ -5,18 +5,13 @@ import android.support.percent.PercentLayoutHelper;
 import android.support.percent.PercentRelativeLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ToggleButton;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
+import com.inyourface.singbetter.Objects.Note;
+import com.inyourface.singbetter.RecordedSessions.SessionsViewActivity;
 
 import be.tarsos.dsp.AudioDispatcher;
 import be.tarsos.dsp.AudioEvent;
@@ -25,10 +20,6 @@ import be.tarsos.dsp.io.android.AudioDispatcherFactory;
 import be.tarsos.dsp.pitch.PitchDetectionHandler;
 import be.tarsos.dsp.pitch.PitchDetectionResult;
 import be.tarsos.dsp.pitch.PitchProcessor;
-import be.tarsos.dsp.pitch.PitchProcessor.PitchEstimationAlgorithm;
-
-import com.inyourface.singbetter.Objects.Note;
-import com.inyourface.singbetter.RecordedSessions.SessionsViewActivity;
 
 
 public class MainActivity extends AppCompatActivity
@@ -119,7 +110,7 @@ public class MainActivity extends AppCompatActivity
         AudioDispatcher dispatcher = AudioDispatcherFactory.fromDefaultMicrophone(22050,1024,0);
         PitchDetectionHandler pdh = new PitchDetectionHandler() {
             @Override
-            public void handlePitch(PitchDetectionResult result,AudioEvent e) {
+            public void handlePitch(PitchDetectionResult result, AudioEvent e) {
                 pitchInHz = result.getPitch();
                 runOnUiThread(new Runnable() {
                     @Override
@@ -180,7 +171,7 @@ public class MainActivity extends AppCompatActivity
                     /*
                         if (pitchInHz == -1)
                             frequencyBarPosition = 2;
-                    */
+					*/
 
                         // change frequency bar position
                         percentLayoutInfo.topMarginPercent = (float) frequencyBarPosition;
@@ -189,7 +180,7 @@ public class MainActivity extends AppCompatActivity
                 });
             }
         };
-        AudioProcessor p = new PitchProcessor(PitchEstimationAlgorithm.FFT_YIN, 22050, 1024, pdh);
+        AudioProcessor p = new PitchProcessor(PitchProcessor.PitchEstimationAlgorithm.FFT_YIN, 22050, 1024, pdh);
         dispatcher.addAudioProcessor(p);
         Thread t = new Thread(dispatcher,"Audio Dispatcher");
         t.start();
@@ -200,23 +191,23 @@ public class MainActivity extends AppCompatActivity
     /** Called when the user taps the History button */
     public void goToHistoryView(View view) {
 		Intent intent = new Intent(MainActivity.this, SessionsViewActivity.class);
-        intent.putExtra("currentNote", currentNote.getNoteString()); // TODO: Constant ID
+        intent.putExtra(Constants.EXTRA_SESSIONS_ACTIVITY_SELECTED_NOTE, selectedNote.getNoteString());
 		startActivity(intent);
     }
 
     /** Called when the user taps the Note Select button */
     public void goToNoteSelectActivity(View view) {
         Intent intent = new Intent(this, NoteSelectActivity.class);
-        int requestCode = 1; // TODO: Constant for meaningful request code
+        int requestCode = Constants.NOTE_SELECTED_REQUEST_CODE;
         startActivityForResult(intent, requestCode);
     }
 
     // Called when a startActivityForResult is finished. Request codes MUST be checked to ensure you're getting the right data.
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
     {
-        if(resultCode == RESULT_OK) // TODO: Check request code
+        if((resultCode == RESULT_OK) && (requestCode == Constants.NOTE_SELECTED_REQUEST_CODE))
         {
-            selectedNote = Util.stringToNote(data.getStringExtra("selectedNote")); // TODO: This needs a meaningful id
+            selectedNote = Util.stringToNote(data.getStringExtra(Constants.EXTRA_NOTE_SELECT_ACIVITY_SELECTED_NOTE));
             selectedNoteText.setText(selectedNote.getNoteString());
         }
     }
