@@ -194,21 +194,29 @@ public class MainActivity extends AppCompatActivity
         Thread t = new Thread(dispatcher,"Audio Dispatcher");
         t.start();
 
-        // END Pitch Code to comment/uncomment
-    }
+		// END Pitch Code to comment/uncomment
 
-    /** Called when the user taps the History button */
-    public void goToHistoryView(View view) {
-		Intent intent = new Intent(MainActivity.this, SessionsViewActivity.class);
-        intent.putExtra("currentNote", currentNote.getNoteString()); // TODO: Constant ID
-		startActivity(intent);
-    }
+		historyViewButton.setOnClickListener(new View.OnClickListener()
+		{
+			@Override
+			public void onClick(View v)
+			{
+				Intent intent = new Intent(MainActivity.this, SessionsViewActivity.class);
+				intent.putExtra("currentNote", currentNote.getNoteString()); // TODO: Constant ID
+				startActivity(intent);
+			}
+		});
 
-    /** Called when the user taps the Note Select button */
-    public void goToNoteSelectActivity(View view) {
-        Intent intent = new Intent(this, NoteSelectActivity.class);
-        int requestCode = 1; // TODO: Constant for meaningful request code
-        startActivityForResult(intent, requestCode);
+		noteSelectViewButton.setOnClickListener(new View.OnClickListener()
+		{
+			@Override
+			public void onClick(View v)
+			{
+				Intent intent = new Intent(MainActivity.this, NoteSelectActivity.class);
+				int requestCode = 1; // TODO: Constant for meaningful request code
+				startActivityForResult(intent, requestCode);
+			}
+		});
     }
 
     // Called when a startActivityForResult is finished. Request codes MUST be checked to ensure you're getting the right data.
