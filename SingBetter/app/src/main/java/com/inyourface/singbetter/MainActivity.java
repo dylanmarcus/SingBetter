@@ -1,6 +1,8 @@
 package com.inyourface.singbetter;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.support.percent.PercentLayoutHelper;
 import android.support.percent.PercentRelativeLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -183,13 +185,25 @@ public class MainActivity extends AppCompatActivity
                         // calculate percentage value for bar position
                         // EDGE BAR POSITIONS DO NOT WORK CORRECTLY FOR B AND C
 
-                        if (adjustedPitchInHz > selectedNote.getMaxFrequency())
+                        if (adjustedPitchInHz > selectedNote.getMaxFrequency()) {
                             frequencyBarPosition = 0;
-                        else if (adjustedPitchInHz < selectedNote.getMinFrequency())
-                            frequencyBarPosition = 0.99;
+                            userFrequencyBar.setBackgroundColor(Color.parseColor("#FF4081"));
 
-                        else
-                            frequencyBarPosition = ( ( (selectedNote.getMaxFrequency() - adjustedPitchInHz) / screenRange) * 100) * 0.01f;
+                        }
+                        else if (adjustedPitchInHz < selectedNote.getMinFrequency()) {
+                            frequencyBarPosition = 0.99;
+                            userFrequencyBar.setBackgroundColor(Color.parseColor("#FF4081"));
+                        }
+
+                        else {
+                            frequencyBarPosition = (((selectedNote.getMaxFrequency() - adjustedPitchInHz) / screenRange) * 100) * 0.01f;
+                            if (adjustedPitchInHz < selectedNote.getNoteFrequency() + (selectedNote.getNoteFrequency() / 400) &&
+                                adjustedPitchInHz > selectedNote.getNoteFrequency() - (selectedNote.getNoteFrequency() / 400)) {
+                                userFrequencyBar.setBackgroundColor(Color.parseColor("#11EAA7"));
+                            } else {
+                                userFrequencyBar.setBackgroundColor(Color.parseColor("#F2F2F2"));
+                            }
+                        }
 
                         if (pitchInHz == -1)
                             frequencyBarPosition = 2;
