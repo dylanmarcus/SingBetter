@@ -33,6 +33,13 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="input_dialog" parent="@android:style/Theme.Dialog">
+        <item name="android:background">@color/colorPrimary</item>
+        <item name="android:textColor">@color/eggShell</item>
+        <item name="android:typeface">normal</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
     <!-- SingBetter Styles -->
     <!--<style name="SingBetterStyle">-->
         <!--<item name="android:buttonStyle">@style/WhiteButton</item>-->

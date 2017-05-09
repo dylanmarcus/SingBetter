@@ -28,15 +28,14 @@ public class SessionDAL
 					SessionOpenHelper.COLUMN_NOTE,
 					SessionOpenHelper.COLUMN_CUSTOMNAME,
 					SessionOpenHelper.COLUMN_DATECREATED,
-					SessionOpenHelper.COLUMN_ASSOCIATEDMP3,
 					SessionOpenHelper.COLUMN_DATA
 			};
 
 	public SessionDAL(Context context)
 	{
+		// Uncomment line below to delete the Database.
+		//context.deleteDatabase(SessionOpenHelper.DATABASE_NAME);
 		dbHelper = new SessionOpenHelper(context);
-		// Uncomment this line to clear the database on app start
-		//dbHelper.onUpgrade(dbHelper.getWritableDatabase(), 0, 1);
 	}
 
 	public void open()
@@ -56,7 +55,6 @@ public class SessionDAL
 		values.put(SessionOpenHelper.COLUMN_NOTE, session.getNote().getNoteString());
 		values.put(SessionOpenHelper.COLUMN_CUSTOMNAME, session.getCustomName());
 		values.put(SessionOpenHelper.COLUMN_DATECREATED, session.getDateCreated());
-		values.put(SessionOpenHelper.COLUMN_ASSOCIATEDMP3, session.getAssociatedMP3());
 		values.put(SessionOpenHelper.COLUMN_DATA, Util.convertIntArrToString(session.getData()));
 
 		long insertID = db.insert(SessionOpenHelper.TABLE_SESSIONS, null, values);
@@ -76,7 +74,6 @@ public class SessionDAL
 		values.put(SessionOpenHelper.COLUMN_NOTE, session.getNote().getNoteString());
 		values.put(SessionOpenHelper.COLUMN_CUSTOMNAME, session.getCustomName());
 		values.put(SessionOpenHelper.COLUMN_DATECREATED, session.getDateCreated());
-		values.put(SessionOpenHelper.COLUMN_ASSOCIATEDMP3, session.getAssociatedMP3());
 		values.put(SessionOpenHelper.COLUMN_DATA, Util.convertIntArrToString(session.getData()));
 
 		String where = SessionOpenHelper.COLUMN_ID + "=?";
@@ -127,9 +124,8 @@ public class SessionDAL
 		session.setNote(Util.stringToNote(cursor.getString(1)));
 		session.setCustomName(cursor.getString(2));
 		session.setDateCreated(cursor.getLong(3));
-		session.setAssociatedMP3(cursor.getString(4));
 		// Convert the String to ArrayList<Integer>
-		session.setData(Util.convertStringToIntArr(cursor.getString(5)));
+		session.setData(Util.convertStringToIntArr(cursor.getString(4)));
 		return session;
 	}
 }

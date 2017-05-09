@@ -37,7 +37,7 @@ public class NoteSelectActivity extends AppCompatActivity
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id)
 		{
 			Intent intent = getIntent();
-			intent.putExtra("selectedNote", stringNotes[position]); // TODO: Constant ID
+			intent.putExtra(Constants.EXTRA_NOTE_SELECT_ACIVITY_SELECTED_NOTE, stringNotes[position]);
 			setResult(RESULT_OK, intent);
 			finish();
 		}

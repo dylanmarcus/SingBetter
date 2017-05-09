@@ -15,22 +15,20 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class SessionOpenHelper extends SQLiteOpenHelper
 {
-	private static final int DATABASE_VERSION = 1; // Do not update the database version without changing the onUpgrade method.
-	private static final String DATABASE_NAME = "SingBetter.db";
+	private static final int DATABASE_VERSION = 2; // Do not update the database version without changing the onUpgrade method.
+	protected static final String DATABASE_NAME = "SingBetter.db";
 
 	protected static final String TABLE_SESSIONS = "Recorded_Sessions";
 	protected static final String COLUMN_ID = "ID";
 	protected static final String COLUMN_NOTE = "Note";
 	protected static final String COLUMN_DATECREATED = "Date_Created";
 	protected static final String COLUMN_CUSTOMNAME = "Custom_Name";
-	protected static final String COLUMN_ASSOCIATEDMP3 = "Associated_MP3";
 	protected static final String COLUMN_DATA = "Data";
 	private static final String SESSION_TABLE_CREATE = "CREATE TABLE " + TABLE_SESSIONS + " (" +
 			COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
 			COLUMN_NOTE + " TEXT NOT NULL, " +
 			COLUMN_DATECREATED + " INTEGER NOT NULL, " +
 			COLUMN_CUSTOMNAME + " TEXT NOT NULL, " +
-			COLUMN_ASSOCIATEDMP3 + " TEXT, " +
 			COLUMN_DATA + " TEXT NOT NULL" +
 			");";
 

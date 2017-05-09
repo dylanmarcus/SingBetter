@@ -87,7 +87,6 @@
             android:layout_height="40dp"
             android:layout_centerHorizontal="true"
             android:background="#ff0000"
-            android:onClick="toggleRecordBtn"
             android:scaleType="fitCenter"
             android:scaleX="1.25"
             android:scaleY="1.25"

@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.inyourface.singbetter.Constants;
 import com.inyourface.singbetter.Objects.Note;
 import com.inyourface.singbetter.R;
 import com.inyourface.singbetter.Objects.Session;
@@ -23,7 +24,7 @@ import java.util.ArrayList;
 
 /**
  * Created by Justin on 4/6/2017.
- * <p>
+ *
  * TODO: Add a description here?
  */
 
@@ -58,7 +59,7 @@ public class SessionsViewActivity extends AppCompatActivity
 
 		// Set the current note to what the selected note.
 		Intent intent = getIntent();
-		currentNote = Util.stringToNote(intent.getStringExtra("currentNote")); // TODO: Constant ID
+		currentNote = Util.stringToNote(intent.getStringExtra(Constants.EXTRA_SESSIONS_ACTIVITY_SELECTED_NOTE));
 		if(currentNote == null)
 		{
 			currentNote = Note.C_SHARP;
@@ -83,13 +84,7 @@ public class SessionsViewActivity extends AppCompatActivity
 		deleteUndoButton = (ImageButton) findViewById(R.id.session_delete_undo);
 		deleteFinishButton = (Button) findViewById(R.id.session_delete_finish);
 
-		// TODO: Delete loop below before final product.
-
-		// The loop below just generates mostly random data.
-		/*for(int i = 0; i < 50; i++)
-		{
-			db.insertSession(Util.generateSession());
-		}*/
+		currentNoteTextView.setText(currentNote.getNoteString());
 
 		// Setup the recyclerview
 		displayedSessions = db.getSessionsWithNote(currentNote);
@@ -120,7 +115,7 @@ public class SessionsViewActivity extends AppCompatActivity
 				else
 				{
 					Intent intent = new Intent(SessionsViewActivity.this, ItemActivity.class);
-					intent.putExtra("clickPosition", pos);
+					intent.putExtra(Constants.EXTRA_ITEM_VIEW_CLICK_POSITION, pos);
 					startActivity(intent);
 				}
 			}

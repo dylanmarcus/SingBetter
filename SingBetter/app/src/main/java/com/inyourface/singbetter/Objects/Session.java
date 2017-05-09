@@ -15,7 +15,6 @@ public class Session implements Serializable
 	private Note note;
 	private String customName;
 	private long dateCreated;
-	private String associatedMP3;
 	private ArrayList<Integer> data;
 
 	//public Session(){}
@@ -68,15 +67,5 @@ public class Session implements Serializable
 	public void setDateCreated(long dateCreated)
 	{
 		this.dateCreated = dateCreated;
-	}
-
-	public String getAssociatedMP3()
-	{
-		return associatedMP3;
-	}
-
-	public void setAssociatedMP3(String associatedMP3)
-	{
-		this.associatedMP3 = associatedMP3;
 	}
 }

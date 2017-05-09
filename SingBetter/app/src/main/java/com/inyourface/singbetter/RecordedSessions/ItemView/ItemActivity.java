@@ -6,15 +6,18 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
+import com.inyourface.singbetter.Constants;
 import com.inyourface.singbetter.R;
 import com.inyourface.singbetter.RecordedSessions.RecyclerView.RecyclerViewAdapter;
 import com.inyourface.singbetter.Objects.Session;
 import com.inyourface.singbetter.Util;
 import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
 import com.jjoe64.graphview.helper.StaticLabelsFormatter;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 /**
@@ -37,10 +40,10 @@ public class ItemActivity extends AppCompatActivity
 		customNameTextView = (TextView) findViewById(R.id.item_custom_name);
 		noteTextView = (TextView) findViewById(R.id.item_note);
 		dateCreatedTextView = (TextView) findViewById(R.id.item_date_created);
-		graphView = (GraphView) findViewById(R.id.graph);
+		graphView = (GraphView) findViewById(R.id.item_graph);
 
 		Intent intent = getIntent();
-		int pos = intent.getExtras().getInt("clickPosition"); // TODO: Define this somewhere
+		int pos = intent.getExtras().getInt(Constants.EXTRA_ITEM_VIEW_CLICK_POSITION);
 
 		Session session = RecyclerViewAdapter.getSession(pos);
 
@@ -48,16 +51,21 @@ public class ItemActivity extends AppCompatActivity
 		noteTextView.setText(session.getNote().getNoteString());
 		dateCreatedTextView.setText(Util.convertEpochToReadable(session.getDateCreated()));
 
+		// Custom label for Y axis
 		StaticLabelsFormatter staticLabelsFormatter = new StaticLabelsFormatter(graphView);
 		staticLabelsFormatter.setVerticalLabels(Util.getAdjacentNotes(session.getNote()));
 		graphView.getGridLabelRenderer().setLabelFormatter(staticLabelsFormatter);
 
+		// Custom label for X axis
+		graphView.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(ItemActivity.this, new SimpleDateFormat("mm:ss")));
+
 		ArrayList<Integer> sessionData = session.getData();
 		DataPoint[] dataPoints = new DataPoint[sessionData.size()];
-		// 1 second represents INTERVAL data points, so we divide by the INTERVAL
 		for(int i = 0; i < sessionData.size(); i++)
 		{
-			dataPoints[i] = new DataPoint(i / 10, sessionData.get(i)); // TODO: Interval constant
+			// Convert this to milliseconds so we can take advantage of the mm:ss format of the x axis
+			double ms = (double) i * (1000 / Constants.INTERVAL);
+			dataPoints[i] = new DataPoint(ms, sessionData.get(i));
 		}
 
 		LineGraphSeries<DataPoint> graphSeries = new LineGraphSeries<>(dataPoints);
@@ -70,10 +78,10 @@ public class ItemActivity extends AppCompatActivity
 
 		graphView.getViewport().setXAxisBoundsManual(true);
 		graphView.getViewport().setMinX(0);
-		graphView.getViewport().setMaxX(20); // How many seconds we want visible
+		graphView.getViewport().setMaxX(40 * 1000); // How many seconds we want visible
 
-		graphView.getViewport().setScalable(true);
-		graphView.getViewport().setScalableY(true);
+		graphView.getViewport().setScrollable(true);
+		graphView.getViewport().setScrollableY(true);
 
 		graphView.addSeries(graphSeries);
 	}
