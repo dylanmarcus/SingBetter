@@ -11,15 +11,12 @@ import com.inyourface.singbetter.R;
 import com.inyourface.singbetter.RecordedSessions.RecyclerView.RecyclerViewAdapter;
 import com.inyourface.singbetter.Objects.Session;
 import com.inyourface.singbetter.Util;
-import com.jjoe64.graphview.DefaultLabelFormatter;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
 import com.jjoe64.graphview.helper.StaticLabelsFormatter;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
-import java.text.DateFormat;
-import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 

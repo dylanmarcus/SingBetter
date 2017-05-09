@@ -5,18 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    style="@style/GradientBackground"
-    tools:context=".RecordedSessions.SessionsViewActivity">
-
-    <ImageView
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:scaleType="fitXY"
-        android:src="@drawable/background"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="0dp" />
+    tools:context=".RecordedSessions.SessionsViewActivity"
+    style="@style/GradientBackground">
 
     <ImageButton
         android:id="@+id/sessions_note_left"
