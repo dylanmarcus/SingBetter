@@ -86,13 +86,6 @@ public class SessionsViewActivity extends AppCompatActivity
 
 		currentNoteTextView.setText(currentNote.getNoteString());
 
-		// TODO: Delete loop below before final product.
-		// The loop below just generates mostly random data.
-		for(int i = 0; i < 50; i++)
-		{
-			//db.insertSession(Util.generateSession());
-		}
-
 		// Setup the recyclerview
 		displayedSessions = db.getSessionsWithNote(currentNote);
 		sessionsRecycler = (RecyclerView) findViewById(R.id.sessions_recycler);
