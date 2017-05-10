@@ -34,10 +34,10 @@ import com.inyourface.singbetter.db.SessionDAL;
 
 public class MainActivity extends AppCompatActivity
 {
-    private TextView freqText;
-    private Button freqButton;
+    // private TextView freqText;
+    // private Button freqButton;
     private ImageButton toggleRecordButton;
-    private TextView recordArray;       // delete later
+    // private TextView recordArray;       // delete later
     private TextView selectedNoteText;
     private ImageButton historyViewButton;
     private ImageButton noteSelectViewButton;
@@ -95,9 +95,11 @@ public class MainActivity extends AppCompatActivity
         //recordArray = (TextView) findViewById(R.id.record_array_text);
 
         pitchInHz = 0.0;
+        /*
         freqText = (TextView) findViewById(R.id.freq_text);
         current_note_text = (TextView) findViewById(R.id.current_note_text);
         current_note_text.setText(currentNote.getNoteString());
+        */
 
 
         // Take the pitch in Hz and convert it into a note
@@ -170,9 +172,12 @@ public class MainActivity extends AppCompatActivity
                             }
                         }
 
+                        // CURRENT NOTE TEXT LOGIC
+                        /*
                         String freqString = String.format("%.2f", pitchInHz);
                         freqText.setText("" + freqString + " Hz ");
                         current_note_text.setText(currentNote.getNoteString());
+                        */
 
                         screenRange = selectedNote.getMaxFrequency() - selectedNote.getMinFrequency();
 
