@@ -210,7 +210,7 @@ public class MainActivity extends AppCompatActivity
                         // If we are recording, get the frequency bar position every 0.1s
                         if(isRecording) {
                             if((calendar.getTimeInMillis() - timeStartedRecording)%100==0)
-                                scoreList.add((int)(frequencyBarPosition*20.0-10.0));
+                                scoreList.add((int)(frequencyBarPosition*100.0));
                         }
                     }
                 });
