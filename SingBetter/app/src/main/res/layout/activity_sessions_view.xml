@@ -8,13 +8,12 @@
     tools:context=".RecordedSessions.SessionsViewActivity"
     style="@style/GradientBackground">
 
-    <ImageButton
+    <Button
         android:id="@+id/sessions_note_left"
         android:scaleType="fitCenter"
-        android:src="@drawable/left_arrow_icon"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:background="#00ffffff"
+        android:background="@drawable/left_arrow_icon"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="30dp"
         android:layout_marginStart="8dp"/>
@@ -36,7 +35,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp" />
 
-    <ImageButton
+    <Button
         android:id="@+id/session_note_right"
         android:layout_width="50dp"
         android:layout_height="50dp"
@@ -44,19 +43,17 @@
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="30dp"
         android:layout_marginRight="8dp"
-        android:src="@drawable/right_arrow_icon"
-        android:background="#00ffffff"
+        android:background="@drawable/right_arrow_icon"
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginEnd="8dp"
         />
 
-    <ImageButton
+    <Button
         android:id="@+id/session_enter_delete_mode"
-        android:layout_width="60dp"
+        android:layout_width="50dp"
         android:layout_height="60dp"
         android:scaleType="fitCenter"
-        android:src="@drawable/trash_icon"
-        android:background="#00ffffff"
+        android:background="@drawable/trash_icon"
         app:layout_constraintLeft_toRightOf="@+id/session_delete_cancel"
         app:layout_constraintRight_toLeftOf="@+id/session_delete_finish"
         app:layout_constraintTop_toBottomOf="@+id/sessions_note_left"
@@ -75,15 +72,14 @@
         app:layout_constraintRight_toLeftOf="@+id/session_delete_undo"
         app:layout_constraintTop_toBottomOf="@+id/sessions_note_left"/>
 
-    <ImageButton
+    <Button
         android:id="@+id/session_delete_undo"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:scaleType="fitCenter"
         android:enabled="false"
-        android:background="#00ffffff"
+        android:background="@drawable/undo_icon"
         android:visibility="invisible"
-        android:src="@drawable/undo_icon"
         app:layout_constraintLeft_toRightOf="@+id/session_delete_cancel"
         app:layout_constraintRight_toLeftOf="@+id/session_delete_finish"
         app:layout_constraintTop_toBottomOf="@+id/sessions_note_left"

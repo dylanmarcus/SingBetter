@@ -42,27 +42,29 @@
 
     </android.support.percent.PercentRelativeLayout>
 
+    <!--
 
-    <!--<TextView-->
-        <!--android:id="@+id/freq_text"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_centerHorizontal="true"-->
-        <!--android:textSize="50sp"-->
-        <!--android:text="Freq Text"  />-->
+    <TextView
+        android:id="@+id/freq_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:textSize="50sp"
+        android:text="Freq Text"  />
 
-    <!--<TextView-->
-        <!--android:id="@+id/current_note_text"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:textSize="50sp"-->
-        <!--android:layout_centerHorizontal="true"-->
-        <!--android:layout_marginTop="50dp"-->
-        <!--android:layout_below="@+id/freq_text"-->
-        <!--android:text="@string/current_note_text" />-->
+    <TextView
+        android:id="@+id/current_note_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="50sp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:layout_below="@+id/freq_text"
+        android:text="@string/current_note_text" />
+
+        -->
 
     <RelativeLayout
-        android:id="@+id/InnerRelativeLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
@@ -70,48 +72,34 @@
         android:layout_marginRight="20dp"
         android:layout_alignParentBottom="true" >
 
-        <ImageButton
+        <Button
             android:id="@+id/history_view_button"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:scaleType="fitCenter"
             android:layout_alignParentEnd="true"
-            android:src="@drawable/history_icon"
-            android:background="#00ffffff"/>
+            android:background="@drawable/history_icon"/>
 
 
-        <ImageButton
+        <Button
             android:id="@+id/note_select_view_button"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:src="@drawable/music_note_icon"
-            android:background="#00ffffff"
+            android:background="@drawable/music_note_icon"
             android:scaleType="fitCenter"/>
 
         <!-- record button -->
         <!--android:background="#00ffffff"-->
         <!--android:onClick="changeRecordState"-->
 
-        <ImageButton
+        <Button
 
             android:id="@+id/toggle_button_record"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_centerHorizontal="true"
-            android:scaleType="fitCenter"
-            android:background="#00ffffff"
-            android:src="@drawable/record_start_icon" />
+            android:background="@drawable/record_start_icon"
+            android:scaleType="fitCenter"/>
         </RelativeLayout>
-
-    <!-- record pitch in Hz and display as an array
-    <TextView
-        android:id="@+id/record_array_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="440dp"
-        android:visibility = "invisible"
-        android:text="array"
-        android:textSize="20dp" />-->
 
 </RelativeLayout>
