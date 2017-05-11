@@ -199,7 +199,7 @@ public class MainActivity extends AppCompatActivity
                         }
 
                         if (pitchInHz == -1)
-                            frequencyBarPosition = 2;
+                            frequencyBarPosition = 1.01;
 
                         // change frequency bar position
                         percentLayoutInfo.topMarginPercent = (float) frequencyBarPosition;
@@ -211,7 +211,7 @@ public class MainActivity extends AppCompatActivity
                             if(((currentTime - lastRecordedTime) % (Constants.MILLISECONDS_IN_SECOND / Constants.INTERVAL)) > 0)
                             {
                                 lastRecordedTime = currentTime;
-                                scoreList.add((int)(frequencyBarPosition*100.0));
+                                scoreList.add((int)(100 - (frequencyBarPosition*100.0)));
                             }
                         }
                     }
