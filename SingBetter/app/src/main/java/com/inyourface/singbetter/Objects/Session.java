@@ -1,6 +1,5 @@
 package com.inyourface.singbetter.Objects;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -8,8 +7,7 @@ import java.util.ArrayList;
  *
  */
 
-@SuppressWarnings("serial")
-public class Session implements Serializable
+public class Session
 {
 	private long id;
 	private Note note;
@@ -17,7 +15,10 @@ public class Session implements Serializable
 	private long dateCreated;
 	private ArrayList<Integer> data;
 
-	//public Session(){}
+	public Session()
+	{
+
+	}
 
 	public ArrayList<Integer> getData()
 	{

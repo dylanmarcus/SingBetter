@@ -13,9 +13,7 @@ import android.text.InputType;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.TextView;
-import java.util.Calendar;
 
 import com.inyourface.singbetter.Objects.Note;
 import com.inyourface.singbetter.RecordedSessions.SessionsViewActivity;
@@ -34,31 +32,32 @@ import com.inyourface.singbetter.db.SessionDAL;
 
 public class MainActivity extends AppCompatActivity
 {
-    // private TextView freqText;
-    // private Button freqButton;
-    private ImageButton toggleRecordButton;
-    // private TextView recordArray;       // delete later
+    //private TextView current_note_text;
+    //private TextView freqText;
     private TextView selectedNoteText;
-    private ImageButton historyViewButton;
-    private ImageButton noteSelectViewButton;
-    // The octave: C C#(D♭) D D#(E♭) E F F#(G♭) G G#(A♭) A A#(B♭) B
-    private double adjustPitchMinDif;
-    double pitchInHz;
-    double adjustedPitchInHz;
-    private Note selectedNote;
-    private TextView current_note_text;
-    private Note currentNote;
-    private double screenRange;
+    //private Button freqButton;
+    private Button toggleRecordButton;
+    private Button historyViewButton;
+    private Button noteSelectViewButton;
     private View userFrequencyBar;
+
+    private Note selectedNote;
+    private Note currentNote;
+
+    private SessionDAL sessionsDatabase;
+
+    private double pitchInHz;
+    private double adjustedPitchInHz;
+    private double adjustPitchMinDif;
+
+    private double screenRange;
     private double frequencyBarPosition;
+
     private boolean isRecording;
-    private Calendar calendar = Calendar.getInstance();
-    private long timeStartedRecording;
     private ArrayList<Integer> scoreList;
-    private SessionDAL db;
 
-    private String m_Text;
-
+    private long lastRecordedTime;
+    private String inputDialogResultText;
 
 
     @Override
@@ -67,13 +66,11 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        lastRecordedTime = 0;
         selectedNote = Note.D;
         currentNote = Note.D;
-        timeStartedRecording = 0;
         scoreList = new ArrayList<Integer>();
-        db = new SessionDAL(this);
-
-
+        sessionsDatabase = new SessionDAL(this);
         isRecording = false;
 
         selectedNoteText = (TextView) findViewById(R.id.selected_note_text);
@@ -87,12 +84,9 @@ public class MainActivity extends AppCompatActivity
 
 
         // Buttons
-        historyViewButton = (ImageButton) findViewById(R.id.history_view_button);
-        noteSelectViewButton = (ImageButton) findViewById(R.id.note_select_view_button);
-        toggleRecordButton = (ImageButton) findViewById(R.id.toggle_button_record);
-
-        // shows frequencies in an array on main view (can delete later once data goes into database)
-        //recordArray = (TextView) findViewById(R.id.record_array_text);
+        historyViewButton = (Button) findViewById(R.id.history_view_button);
+        noteSelectViewButton = (Button) findViewById(R.id.note_select_view_button);
+        toggleRecordButton = (Button) findViewById(R.id.toggle_button_record);
 
         pitchInHz = 0.0;
         /*
@@ -100,7 +94,6 @@ public class MainActivity extends AppCompatActivity
         current_note_text = (TextView) findViewById(R.id.current_note_text);
         current_note_text.setText(currentNote.getNoteString());
         */
-
 
         // Take the pitch in Hz and convert it into a note
         // Frequency of a note that is +/- n half steps away
@@ -128,7 +121,7 @@ public class MainActivity extends AppCompatActivity
         B4 - 493.88
         */
 
-        AudioDispatcher dispatcher = AudioDispatcherFactory.fromDefaultMicrophone(22050,1024,0);
+        AudioDispatcher dispatcher = AudioDispatcherFactory.fromDefaultMicrophone(Constants.AUDIO_SAMPLE_RATE, Constants.AUDIO_BUFFER_SIZE, Constants.AUDIO_BUFFER_OVERLAP);
         PitchDetectionHandler pdh = new PitchDetectionHandler() {
             @Override
             public void handlePitch(PitchDetectionResult result, AudioEvent e) {
@@ -213,15 +206,19 @@ public class MainActivity extends AppCompatActivity
                         userFrequencyBar.setLayoutParams(layoutParams);
 
                         // If we are recording, get the frequency bar position every 0.1s
+                        long currentTime = Util.getCurrentTimeInMilliseconds();
                         if(isRecording) {
-                            if((calendar.getTimeInMillis() - timeStartedRecording)%100==0)
+                            if(((currentTime - lastRecordedTime) % (Constants.MILLISECONDS_IN_SECOND / Constants.INTERVAL)) > 0)
+                            {
+                                lastRecordedTime = currentTime;
                                 scoreList.add((int)(frequencyBarPosition*100.0));
+                            }
                         }
                     }
                 });
             }
         };
-        AudioProcessor p = new PitchProcessor(PitchProcessor.PitchEstimationAlgorithm.FFT_YIN, 22050, 1024, pdh);
+        AudioProcessor p = new PitchProcessor(PitchProcessor.PitchEstimationAlgorithm.FFT_YIN, Constants.AUDIO_SAMPLE_RATE, Constants.AUDIO_BUFFER_SIZE, pdh);
         dispatcher.addAudioProcessor(p);
         Thread t = new Thread(dispatcher,"Audio Dispatcher");
         t.start();
@@ -232,7 +229,7 @@ public class MainActivity extends AppCompatActivity
 			public void onClick(View v)
 			{
 				Intent intent = new Intent(MainActivity.this, SessionsViewActivity.class);
-				intent.putExtra(Constants.EXTRA_SESSIONS_ACTIVITY_SELECTED_NOTE, currentNote.getNoteString());
+				intent.putExtra(Constants.EXTRA_SESSIONS_ACTIVITY_SELECTED_NOTE, selectedNote.getNoteString());
 				startActivity(intent);
 			}
 		});
@@ -258,7 +255,7 @@ public class MainActivity extends AppCompatActivity
                     isRecording = false;
 
                     // Update the record button image to the record start icon
-                    toggleRecordButton.setImageResource(R.drawable.record_start_icon);
+                    toggleRecordButton.setBackgroundResource(R.drawable.record_start_icon);
 
                     // Re-enable note switch and history view buttons
                     historyViewButton.setEnabled(true);
@@ -286,11 +283,11 @@ public class MainActivity extends AppCompatActivity
                         @Override
                         public void onClick(DialogInterface dialog, int which)
                         {
-                            m_Text = input.getText().toString();
+                            inputDialogResultText = input.getText().toString();
                             // If nothing was entered by the user, use a default name (note + current time)
-                            if(m_Text.equals(""))
+                            if(inputDialogResultText.equals(""))
                             {
-                                m_Text = hintText;
+                                inputDialogResultText = hintText;
                             }
 
                             // Create a new session
@@ -298,12 +295,12 @@ public class MainActivity extends AppCompatActivity
                             session.setNote(selectedNote);
                             session.setData(scoreList);
                             session.setDateCreated(timeEnded);
-                            session.setCustomName(m_Text);
+                            session.setCustomName(inputDialogResultText);
 
-                            // Create a db entry in the current note
-                            db.open();
-                            db.insertSession(session);
-                            db.close();
+                            // Create a sessionsDatabase entry in the current note
+                            sessionsDatabase.open();
+                            sessionsDatabase.insertSession(session);
+                            sessionsDatabase.close();
 
                             scoreList.clear();
                         }
@@ -326,16 +323,13 @@ public class MainActivity extends AppCompatActivity
                     isRecording = true;
 
                     // Update the record button image to the record stop icon
-                    toggleRecordButton.setImageResource(R.drawable.record_stop_icon);
+                    toggleRecordButton.setBackgroundResource(R.drawable.record_stop_icon);
 
                     // Disable note switch and history view buttons
                     historyViewButton.setEnabled(false);
                     historyViewButton.setVisibility(View.INVISIBLE);
                     noteSelectViewButton.setEnabled(false);
                     noteSelectViewButton.setVisibility(View.INVISIBLE);
-
-                    // Initialize the time when we started recording
-                    timeStartedRecording = calendar.getTimeInMillis();
                 }
             }
         });
@@ -346,7 +340,7 @@ public class MainActivity extends AppCompatActivity
     {
         if((resultCode == RESULT_OK) && (requestCode == Constants.NOTE_SELECTED_REQUEST_CODE))
         {
-            selectedNote = Util.stringToNote(data.getStringExtra(Constants.EXTRA_NOTE_SELECT_ACIVITY_SELECTED_NOTE));
+            selectedNote = Util.stringToNote(data.getStringExtra(Constants.EXTRA_NOTE_SELECT_ACTIVITY_SELECTED_NOTE));
             selectedNoteText.setText(selectedNote.getNoteString());
         }
     }
